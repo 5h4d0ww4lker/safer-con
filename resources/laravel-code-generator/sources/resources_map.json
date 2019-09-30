@@ -1,0 +1,117 @@
+[
+    {
+        "model-name": "Category",
+        "resource-file": "categories.json",
+        "table-name": "categories"
+    },
+    {
+        "model-name": "Brand",
+        "resource-file": "brands.json",
+        "table-name": "brands"
+    },
+    {
+        "model-name": "Item",
+        "resource-file": "items.json",
+        "table-name": "items"
+    },
+    {
+        "model-name": "Order",
+        "resource-file": "orders.json",
+        "table-name": "orders"
+    },
+    {
+        "model-name": "SubCategory",
+        "resource-file": "sub_categories.json",
+        "table-name": "sub_categories"
+    },
+    {
+        "model-name": "Merchant",
+        "resource-file": "merchants.json",
+        "table-name": "merchants"
+    },
+    {
+        "model-name": "Complaint",
+        "resource-file": "complaints.json",
+        "table-name": "complaints"
+    },
+    {
+        "model-name": "Wishlist",
+        "resource-file": "wishlists.json",
+        "table-name": "wishlists"
+    },
+    {
+        "model-name": "ItemDetail",
+        "resource-file": "item_details.json",
+        "table-name": "item_details"
+    },
+    {
+        "model-name": "Rating",
+        "resource-file": "ratings.json",
+        "table-name": "ratings"
+    },
+    {
+        "model-name": "Reveiew",
+        "resource-file": "reveiews.json",
+        "table-name": "reveiews"
+    },
+    {
+        "model-name": "Review",
+        "resource-file": "reviews.json",
+        "table-name": "reviews"
+    },
+    {
+        "model-name": "Transaction",
+        "resource-file": "transactions.json",
+        "table-name": "transactions"
+    },
+    {
+        "model-name": "Credit",
+        "resource-file": "credits.json",
+        "table-name": "credits"
+    },
+    {
+        "model-name": "SearchHistory",
+        "resource-file": "search_histories.json",
+        "table-name": "search_histories"
+    },
+    {
+        "model-name": "ShoppingCart",
+        "resource-file": "shopping_carts.json",
+        "table-name": "shopping_carts"
+    },
+    {
+        "model-name": "PayRate",
+        "resource-file": "pay_rates.json",
+        "table-name": "pay_rates"
+    },
+    {
+        "model-name": "CreditRequest",
+        "resource-file": "credit_requests.json",
+        "table-name": "credit_requests"
+    },
+    {
+        "model-name": "Bank",
+        "resource-file": "banks.json",
+        "table-name": "banks"
+    },
+    {
+        "model-name": "Notification",
+        "resource-file": "notifications.json",
+        "table-name": "notifications"
+    },
+    {
+        "model-name": "LangingPage",
+        "resource-file": "langing_pages.json",
+        "table-name": "langing_pages"
+    },
+    {
+        "model-name": "LandingPage",
+        "resource-file": "landing_pages.json",
+        "table-name": "landing_pages"
+    },
+    {
+        "model-name": "Contact",
+        "resource-file": "contacts.json",
+        "table-name": "contacts"
+    }
+]

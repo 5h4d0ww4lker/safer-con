@@ -1,0 +1,90 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\User;
+use App\Address;
+use Illuminate\Http\Request;
+
+class ProfileController extends Controller {
+	public function index() {
+		$user = User::find(auth()->user()->id)->toArray();
+		
+		$address = Address::find($user['address']);
+		return view('administrator.profile.user_profile', compact('user','address'));
+	}
+
+	public function update(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$address = Address::find($user->address);
+	
+
+	
+
+		$data = request()->validate([
+			
+			
+			'profile_picture' => 'nullable|mimes:jpeg,png,jpg,gif',
+		
+		]);
+
+		if (!empty($data['profile_picture'])) {
+			$profile_picture = time() . '.' . request()->profile_picture->getClientOriginalExtension();
+			$user->profile_picture = $profile_picture;
+			request()->profile_picture->move(public_path('public/profile_picture'), $profile_picture);
+		} else {
+			$profile_picture = $request->get('previous_avater');
+		}
+
+		$user->name = $request->get('name');
+		$user->phone_no = $request->get('phone_number_1');
+		$user->gender = $request->get('gender');
+		$user->date_of_birth = $request->get('date_of_birth');
+		
+		
+
+
+
+
+		$affected_row = $user->save();
+
+		$address->phone_number_1 = $request->get('phone_number_1');
+		$address->region = $request->get('region');
+		$address->city = $request->get('city');
+		$address->sub_city = $request->get('sub_city');
+		$address->location = $request->get('location');
+		$address->building = $request->get('building');
+
+		$r = $address->save();
+
+		if (!empty($affected_row)) {
+			return redirect('/profile/user-profile')->with('message', 'Update successfully.');
+		}
+		return redirect('/profile/user-profile')->with('exception', 'Operation failed !');
+	}
+
+	public function change_password() {
+		return view('administrator.profile.change_password');
+	}
+
+	public function update_password(Request $request) {
+		$user = User::find(auth()->user()->id);
+
+		$data = request()->validate([
+			'password' => 'required|string|min:8|confirmed',
+			'password_confirmation' => '',
+		], [
+			'password.required' => 'The new password field is required.',
+		]);
+
+		$user->password = bcrypt($request->get('password'));
+
+		$affected_row = $user->save();
+
+		if (!empty($affected_row)) {
+			return redirect('/profile/change-password')->with('message', 'Update successfully.');
+		}
+		return redirect('/profile/change-password')->with('exception', 'Operation failed !');
+
+	}
+}
