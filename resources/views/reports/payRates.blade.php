@@ -210,9 +210,9 @@
 
                 <tr>
                     <td>{{ $sl++ }}</td>
-                    <td>{{$payRate->name}}</td>
-                    <td>{{$payRate->percentage_from_customer }}</td>
-                    <td>{{ $payRate->percentage_from_merchant }}</td>
+                    <td>{{@$payRate->name}}</td>
+                    <td>{{@$payRate->percentage_from_customer }}</td>
+                    <td>{{@$payRate->percentage_from_merchant }}</td>
 
                 </tr>
                 @endforeach

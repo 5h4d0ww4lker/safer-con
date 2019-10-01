@@ -52,6 +52,12 @@
                            @else
                            <li class="nav-item"><a class="nav-link" href="{{ url('/my_orders') }}">My Orders</a></li>
                            @endif
+
+                           @if($active == 'orders_history')
+                           <li class="nav-item active"><a class="nav-link" href="{{ url('/order_history') }}">History</a></li>
+                           @else
+                           <li class="nav-item"><a class="nav-link" href="{{ url('/order_history') }}">History</a></li>
+                           @endif
                            @if($active == 'contact')
                            <li class="nav-item active"><a class="nav-link" href="{{ url('/contact') }}">Contact</a></li>
                            @else
@@ -88,7 +94,7 @@
                            @endif
                            @endif
 
-                           
+
                            @if(!empty(auth()->user()->name))
                            <?php
                             $count2 = \App\Models\Wishlist::where('user_id', auth()->user()->id)->count();
@@ -109,9 +115,9 @@
 
                             ?>
                            @if($active == 'notification')
-                           <li ><a href="{{ url('/my_notifications') }}" style="color:red;"><i class="fa fa-envelope"></i>{{$count3}}</a></li>
+                           <li><a href="{{ url('/my_notifications') }}" style="color:red;"><i class="fa fa-envelope"></i>{{$count3}}</a></li>
                            @else
-                           <li ><a href="{{ url('/my_notifications') }}"><i class="fa fa-envelope"></i>{{$count3}}</a></li>
+                           <li><a href="{{ url('/my_notifications') }}"><i class="fa fa-envelope"></i>{{$count3}}</a></li>
                            @endif
 
                            @endif

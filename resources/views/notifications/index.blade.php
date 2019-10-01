@@ -59,7 +59,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Message</th>
+                            <th width="70%">Message</th>
                             <th>Status</th>
 
                             <th>Date</th>

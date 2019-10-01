@@ -31,7 +31,7 @@ class CreditRequestsController extends Controller
     }
     public function index()
     {
-        $creditRequests = CreditRequest::with('user', 'bank', 'transaction', 'creator', 'updater')->paginate(25);
+        $creditRequests = CreditRequest::orderBy('created_at', 'DESC')->with('user', 'bank', 'transaction', 'creator', 'updater')->paginate(25);
 
         return view('credit_requests.index', compact('creditRequests'));
     }
@@ -162,19 +162,22 @@ dd($exception->getMessage());
     public function update($id, Request $request)
     {
         try {
-            $user_id = Auth::user()->id;
+            $user_id = $request->user_id;
             $data = $this->getData($request);
             $data['updated_by'] = Auth::user()->id;
             $creditRequest = CreditRequest::findOrFail($id);
             $old_status = $creditRequest->status;
             $status = $data['status'];
             $newAmount = $data['amount'];
+
             if ($status == 'Confirmed' && $old_status != 'Confirmed') {
                 $credit_info = Credit::where('user_id', $user_id)->first();
                 $old_credit = $credit_info->amount;
                 $new_credit = $old_credit + $newAmount;
                 $credit['amount'] = $new_credit;
+                $credit['updated_by'] =  Auth::user()->id;
                 $credit_info->update($credit);
+
 
                 $user = User::find($user_id);
                 $message2 = $user->name . ', ' . ' your credit request for ' . $newAmount . ' is now confirmed and added to your available credit.';
@@ -190,6 +193,7 @@ dd($exception->getMessage());
                 $old_credit = $credit_info->amount;
                 $new_credit = $old_credit + $newAmount;
                 $credit['amount'] = $new_credit;
+                $credit['updated_by'] =  Auth::user()->id;
                 $credit_info->update($credit);
 
                 $user = User::find($user_id);

@@ -220,10 +220,10 @@
 
                 <tr>
                     <td>{{ $sl++ }}</td>
-                    <td>{{$from->name}} &nbsp;{{$from->father_name}}</td>
-                    <td>{{$to->name}} &nbsp;{{$to->father_name}}</td>
-                    <td>{{ $transaction->amount }}&nbsp;ETB</td>
-                    <td>{{ $transaction->status }}</td>
+                    <td>{{@$from->name}} &nbsp;{{@$from->father_name}}</td>
+                    <td>{{@$to->name}} &nbsp;{{@$to->father_name}}</td>
+                    <td>{{@$transaction->amount }}&nbsp;ETB</td>
+                    <td>{{@$transaction->status }}</td>
 
                 </tr>
                 @endforeach

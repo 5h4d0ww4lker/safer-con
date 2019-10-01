@@ -216,9 +216,9 @@
 
                 <tr>
                     <td>{{ $sl++ }}</td>
-                    <td>{{$user->name}}&nbsp; {{$user->father_name}}</td>
-                    <td>{{$credit->amount }}</td>
-                    <td>{{$credit->on_hold }}</td>
+                    <td>{{@$user->name}}&nbsp; {{@$user->father_name}}</td>
+                    <td>{{@$credit->amount }}</td>
+                    <td>{{@$credit->on_hold }}</td>
                 </tr>
                 @endforeach
             </tbody>

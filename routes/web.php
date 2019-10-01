@@ -90,6 +90,7 @@ Route::get('/byBrand/{id}', 'MainController@byBrand')->name('byBrand');
 Route::get('/cart', 'MainController@cart')->name('cart');
 Route::get('/my_wishlists', 'MainController@my_wishlists')->name('my_wishlists');
 Route::get('/my_orders', 'MainController@my_orders')->name('my_orders');
+Route::get('/order_history', 'MainController@order_history')->name('order_history');
 Route::get('/contact', 'MainController@contact')->name('contact');
 Route::get('/contact', 'MainController@contact')->name('contact');
 Route::get('/register_merchant', 'SuperAdminController@register_merchant');

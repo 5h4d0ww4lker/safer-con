@@ -87,7 +87,7 @@
                                             <td><p><input id="price_{{$item->id}}" type="text" value="{{$item->item_price}}" disabled> ETB</p></td>
                                             <form    action="{{ route('submit_order') }}" method="post" id="order">
                                             {{ csrf_field() }}
-                                            <td><input type="number" id="quantity_{{$item->id}}" name="quantities[]" onchange="myFunction_{{$item->id}}()" required></td>
+                                            <td><input type="number" id="quantity_{{$item->id}}" min="1" name="quantities[]" onchange="myFunction_{{$item->id}}()" required></td>
                                             <td><input type="hidden" name="item_ids[]" value="{{$item->id}}" ></td>
                                             
                                             <td><p><input id="total_{{$item->id}}" type="text" value="{{$item->item_price}}" disabled>ETB</p></td>

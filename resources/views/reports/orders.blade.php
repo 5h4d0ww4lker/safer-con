@@ -169,23 +169,23 @@
 
         <div class="row">
 
-        <img src="{{ public_path("public/som2.png") }}" alt="" style="width: 50px; height: 50px; padding-left:45%;">
-            
-                
-               
+            <img src="{{ public_path("public/som2.png") }}" alt="" style="width: 50px; height: 50px; padding-left:45%;">
+
+
+
 
 
         </div>
         <div class="row">
 
 
-        
+
             <h5 style="text-align:center">Arganon Ecomerce</h5>
-       
-   
 
 
-</div>
+
+
+        </div>
 
 
 
@@ -212,21 +212,21 @@
                 @foreach($orders as $order)
 
                 <?php
-               
+
                 $user = \App\User::find($order->user_id);
                 $merchant = \App\User::find($order->merchant_id);
                 $item = \App\Item::find($order->item_id);
-               
-               ?>
+
+                ?>
 
                 <tr>
                     <td>{{ $sl++ }}</td>
-                    <td>{{$user->name}} &nbsp;{{$user->father_name}}</td>
-                    <td>{{$merchant->name}} &nbsp;{{$merchant->father_name}}</td>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $order->quantity }}</td>
-                    <td>{{ $order->toatl_amount }}&nbsp;ETB</td>
-                    <td>{{$order->status}}</td>
+                    <td>{{@$user->name}} &nbsp;{{@$user->father_name}}</td>
+                    <td>{{@$merchant->name}} &nbsp;{{@$merchant->father_name}}</td>
+                    <td>{{@ $item->name }}</td>
+                    <td>{{ @$order->quantity }}</td>
+                    <td>{{ @$order->toatl_amount }}&nbsp;ETB</td>
+                    <td>{{@$order->status}}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -234,7 +234,7 @@
         <hr class="footer4">
         <hr class="footer5">
         <hr class="footer6">
-      
+
 
         <p>
             <h5 class="footer2">www.Arganon.com</h5>

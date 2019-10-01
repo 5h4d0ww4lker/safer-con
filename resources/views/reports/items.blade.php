@@ -219,11 +219,11 @@
 
                 <tr>
                     <td>{{ $sl++ }}</td>
-                    <td>{{$item->name}}</td>
-                    <td>{{$category->name }}</td>
-                    <td>{{ $sub_category->name }}</td>
-                    <td>{{ $brand->name }}</td>
-                    <td>{{$user->name}}&nbsp;{{$user->father_name}}</td>
+                    <td>{{@$item->name}}</td>
+                    <td>{{@$category->name }}</td>
+                    <td>{{@ $sub_category->name }}</td>
+                    <td>{{@ $brand->name }}</td>
+                    <td>{{@$user->name}}&nbsp;{{@$user->father_name}}</td>
                 </tr>
                 @endforeach
             </tbody>

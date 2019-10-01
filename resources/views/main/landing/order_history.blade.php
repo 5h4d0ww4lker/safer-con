@@ -10,7 +10,7 @@
             <h3>My Orders</h3>
             <ul>
                 <li><a href="#">Home</a></li>
-                <li><a href="#">Orders List</a></li>
+                <li><a href="#">Orders History</a></li>
             </ul>
         </div>
     </div>
@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="cart_product_list">
-                    <h3 class="cart_single_title">Current Ordered Items</h3>
+                    <h3 class="cart_single_title">Previously Ordered Items</h3>
                     @if(Session::has('toasts'))
                     @foreach(Session::get('toasts') as $toast)
                     <div class="alert alert-{{ $toast['level'] }}">
@@ -45,7 +45,7 @@
                                     <th scope="col" style="text-align:center;">total</th>
                                     <th scope="col" style="text-align:center;">ordered on</th>
                                     <th scope="col" style="text-align:center;">Status</th>
-                                    <th scope="col">Confirm/Cancel</th>
+                                  
                                     <th scope="col">Info</th>
 
                                 </tr>
@@ -105,12 +105,7 @@
                                             @endif
 
                                         </td>
-                                        <th scope="row">
-                                        <a href="{{ url('/confirm_order/'.$cart_item->id) }}" style="background-color:green; color: #fff; border-radius:1px solid #d42421;">&nbsp;&nbsp; <i class="fa fa-check"></i>&nbsp;&nbsp;</a>
-
-                                            <a href="{{ url('/cancel_order/'.$cart_item->id) }}" style="background-color:#d42421; color: #fff; border-radius:1px solid #d42421;">&nbsp;&nbsp; <i class="fa fa-close"></i>&nbsp;&nbsp;</a>
-                                           
-                                        </th>
+                                        
                                         <th scope="row">
                                             <a href="{{ url('/order_details/'.$cart_item->id) }}" style="background-color:lightseagreen; color: #fff; border-radius:4px solid #d42421;"> &nbsp;&nbsp;<i class="fa fa-info"></i>&nbsp;&nbsp;</a>
 

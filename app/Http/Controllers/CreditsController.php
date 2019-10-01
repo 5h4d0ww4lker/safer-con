@@ -30,9 +30,9 @@ class CreditsController extends Controller
             Session::put('start_date', $start_date);
             Session::put('end_date', $end_date);
 
-            $credits = Credit::with('user', 'creator', 'updater')->paginate(1000);
+            $credits = Credit::orderBy('created_at' ,'DESC' )->with('user', 'creator', 'updater')->paginate(1000);
         } else {
-            $credits = Credit::with('user', 'creator', 'updater')->paginate(1000);
+            $credits = Credit::orderBy('created_at' ,'DESC' )->with('user', 'creator', 'updater')->paginate(1000);
         }
 
         return view('credits.index', compact('credits'));

@@ -105,7 +105,7 @@ transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
                                                         <button type="submit"  class="btn btn-primary checkout_btn">Submit Request</button>
                                                         </div>
                                                     </form>
-                                             <p style="color:red">Note: Before submitting this request make sure you deposited the same amount as the on you would like to request to one of the banks on the list with respective account no.</p>
+                                             <p style="color:red">Note: Before submitting this request make sure you deposited the same amount as the one you would like to request to one of the banks on the list with respective account no.</p>
 
                                             </div>
 

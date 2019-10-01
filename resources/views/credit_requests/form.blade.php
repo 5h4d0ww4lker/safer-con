@@ -63,7 +63,7 @@ $bank_info = \App\Models\Bank::find($key);
     <label for="status" class="col-md-2 control-label">Status</label>
     <div class="col-md-10">
     <select class="form-control" id="transaction_id" name="status" required="true">
-        	    <option value="{{!! old('status', optional($creditRequest)->status) !!}}">{{!!($creditRequest)->status!!}}</option>
+        	    <option value="{{!! old('status', optional($creditRequest)->status) !!}}">{!!($creditRequest)->status!!}</option>
                 <option value="Confirmed">Confirmed</option>
                 <option value="Declined">Declined</option>
 

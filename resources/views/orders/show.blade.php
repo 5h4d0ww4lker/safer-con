@@ -41,7 +41,8 @@
                             <dd>{{ $order->price }}</dd>
                             <dt>Toatl Amount</dt>
                             <dd>{{ $order->toatl_amount }}</dd>
-                            <dt> @if($order->status == 'Pending')
+                            <dt>Status</dt>
+                            <dd> @if($order->status == 'Pending')
 
                                 <span class="label label-warning">Pending</span>
                                 @endif
@@ -52,8 +53,8 @@
                                 @if($order->status == 'Canceled')
 
                                 <span class="label label-danger">Canceled</span>
-                                @endif</dt>
-                            <dd>{{ $order->status }}</dd>
+                                @endif</dd>
+
                             <dt>Ordered At</dt>
                             <dd>{{ $order->created_at }}</dd>
 
@@ -66,18 +67,18 @@
                             $address =   \App\Address::find($order->ship_to);
                             ?>
                             <dt>Region</dt>
-                            <dd>{{$address->region }}</dd>
+                            <dd>{{@$address->region }}</dd>
                             <dt>City</dt>
-                            <dd>{{$address->city }}</dd>
+                            <dd>{{@$address->city }}</dd>
                             <dt>Sub City</dt>
-                            <dd>{{ $address->sub_city }}</dd>
+                            <dd>{{@$address->sub_city }}</dd>
                             <dt>Location</dt>
-                            <dd>{{ $address->location }}</dd>
+                            <dd>{{@$address->location }}</dd>
                             <dt>Building</dt>
-                            <dd>{{ $address->building }}</dd>
+                            <dd>{{ @$address->building }}</dd>
 
                             <dt>Contact Phone</dt>
-                            <dd>{{ $address->phone_number_1	 }}</dd>
+                            <dd>{{ @$address->phone_number_1	 }}</dd>
                     </div>
 
                     <div class="col-md-4">

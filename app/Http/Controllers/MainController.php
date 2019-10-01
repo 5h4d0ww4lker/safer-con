@@ -370,8 +370,7 @@ class MainController extends Controller
 
 
 			$item = ShoppingCart::findOrFail($item_id);
-			$data['status'] = 'Removed';
-			$item->update($data);
+			$item->delete();
 
 			$new_item_id = $item->item_id;
 			$new_item = Item::find($new_item_id);
@@ -424,8 +423,8 @@ class MainController extends Controller
 		$item_ids = request()->item_ids;
 		$quantities = request()->quantities;
 		$user_id = Auth::user()->id;
-		DB::beginTransaction();
 
+		DB::beginTransaction();
 		try {
 
 			for ($i = 0; $i < $count; $i++) {
@@ -437,10 +436,12 @@ class MainController extends Controller
 				$in_stock = $stock->stock;
 				$quantity = $quantities[$i];
 
+				$item_name = $item->name;
+
 
 				if ($in_stock < $quantity) {
 
-					throw new \Exception('Not enough items in stock.');
+					throw new \Exception('Not enough items in stock for ' . $item_name . '.');
 				}
 				$item_category = $item->category_id;
 				$category = Category::find($item_category);
@@ -454,20 +455,23 @@ class MainController extends Controller
 
 				$user_credit = Credit::where('user_id', $user_id)->first();
 				$available_user_credit = $user_credit->amount;
+				$available_on_hold = $user_credit->on_hold;
 
 				$update_user_credit = $available_user_credit - $purchase_amount - $comission;
 
 				if ($available_user_credit < 0) {
 
-					throw new \Exception('Insufficent balance to order items on cart.');
+					throw new \Exception('Insufficent balance to order ' . $item_name . ' Please request a new credit so you could continue.');
 				}
+
 				$user_amount['amount'] = $update_user_credit;
-				$user_amount['on_hold'] = $purchase_amount;
+				$user_amount['on_hold'] = $purchase_amount + $available_on_hold;
 				$user_credit->update($user_amount);
 
 
 
 				$merchant_id = $item->created_by;
+
 				$merchant_credit = Credit::where('user_id', $merchant_id)->first();
 				$available_merchant_credit = $merchant_credit->on_hold;
 
@@ -481,7 +485,6 @@ class MainController extends Controller
 				$update_system_credit = $available_system_credit + $comission;
 				$system_amount['amount'] = $update_system_credit;
 				$system_credit->update($system_amount);
-
 
 
 
@@ -508,8 +511,7 @@ class MainController extends Controller
 
 
 				$cart = ShoppingCart::where('user_id', $user_id)->where('item_id', $item_id)->first();
-				$cart_status['status'] = 'Ordered';
-				$cart->update($cart_status);
+				$cart->delete();
 
 
 				$update_stock['stock'] = $in_stock - $quantity;
@@ -525,28 +527,40 @@ class MainController extends Controller
 				$notification->save();
 
 
-				$message2 = $user->name . ', ' . ' you submitted order for ' . $item->name . '. An amount of ' . $purchase_amount . ' ETB has been deduct from on available credit and added to your on hold credit.';
+				$message2 = $user->name . ', ' . ' you submitted order for ' . $item->name . '. An amount of ' . $purchase_amount . ' ETB has been deduct from your available credit and added to your on hold credit.';
 				$notification2 = new Notification();
 				$notification2->notify_to = $user->id;
 				$notification2->content = $message2;
 				$notification2->status = "Pending";
 				$notification2->save();
-			}
-			DB::commit();
-			toast()->success('Items ordered successfully.');
 
-			return redirect('/add_shipment/' . $order->id);
+				toast()->success($item_name . ' ordered successfully.');
+				$name = 'order_id_' . $i;
+				Session::put($name, $order->id);
+			}
+
+
+
 			//return redirect('/my_orders');
 		} catch (\Exception $e) {
 			DB::rollback();
-			toast()->error($e->getMessage()());
+			Session::forget('order_id_1');
+			Session::forget('order_id_2');
+			Session::forget('order_id_3');
+			Session::forget('order_id_4');
+			Session::forget('order_id_5');
+			toast()->error($e->getMessage());
 
 			return redirect('/cart');
 		}
+
+		DB::commit();
+		return redirect('/add_shipment/' . $i);
 	}
 
 	public  function add_shipment($order_id)
 	{
+
 		if (empty(Auth::user()->id)) {
 			toast()->error('Please login or sign up to continue.', 'Error!');
 
@@ -581,13 +595,18 @@ class MainController extends Controller
 		$address->save();
 
 		$address_id = $address->id;
+		$c = $request->order_id;
 
-		$order = Order::find($request->order_id);
+		for ($i = 0; $i < $c; $i++) {
+			$name = 'order_id_' . $i;
+			$oid = Session::get($name);
 
-		$data['ship_to'] = $address_id;
-		$order->update($data);
+			$order = Order::find($oid);
 
-
+			$data['ship_to'] = $address_id;
+			$order->update($data);
+			Session::forget($name);
+		}
 		$active = "profile";
 		toast()->success('Shipment info added successfully.');
 
@@ -655,7 +674,7 @@ class MainController extends Controller
 			$user = User::find($user_id);
 
 			$item = Item::find($order->item_id);
-			$message = $merchant->name . ',' . $user->name . ' ' . $user->father_name . ' cancelled the order for ' . $item->name . '. An amount of ' . $total_amount . ' ETB has been deduct from on hold credit.';
+			$message = $merchant->name . ',' . $user->name . ' ' . $user->father_name . ' cancelled the order for ' . $item->name . '. An amount of ' . $total_amount . ' ETB has been deduct from your on hold credit.';
 			$notification = new Notification();
 			$notification->notify_to = $merchant_id;
 			$notification->content = $message;
@@ -663,7 +682,7 @@ class MainController extends Controller
 			$notification->save();
 
 
-			$message2 = $user->name . ', ' . ' you cancelled  the order for ' . $item->name . ' An amount of ' . $total_amount . ' ETB has been deduct from on hold credit and added to your available credit.';
+			$message2 = $user->name . ', ' . ' you cancelled  the order for ' . $item->name . ' An amount of ' . $total_amount . ' ETB has been deduct from your on hold credit and added to your available credit.';
 			$notification2 = new Notification();
 			$notification2->notify_to = $user->id;
 			$notification2->content = $message2;
@@ -736,7 +755,7 @@ class MainController extends Controller
 
 
 			$item = Item::find($order->item_id);
-			$message = $merchant->name . ',' . $user->name . ' ' . $user->father_name . ' confirmed that the order for ' . $item->name . ' is delivered. an amount of ' . $total_amount . ' ETB has been deduct from on hold credit and added to your available credit.';
+			$message = $merchant->name . ',' . $user->name . ' ' . $user->father_name . ' confirmed that the order for ' . $item->name . ' is delivered. an amount of ' . $total_amount . ' ETB has been deduct from your on hold credit and added to your available credit.';
 			$notification = new Notification();
 			$notification->notify_to = $merchant_id;
 			$notification->content = $message;
@@ -770,7 +789,7 @@ class MainController extends Controller
 		$active = "product";
 		$merchant = User::find($item->created_by);
 		$address = Address::find($merchant->address);
-		return view('main.landing.product_details', compact('item', 'itemDetail', 'relatedProducts', 'active','merchant', 'address'));
+		return view('main.landing.product_details', compact('item', 'itemDetail', 'relatedProducts', 'active', 'merchant', 'address'));
 	}
 
 	public  function order_details($id)
@@ -780,7 +799,7 @@ class MainController extends Controller
 		$item = Item::where('id', $item_id)->first();
 		$merchant = User::find($item->created_by);
 		$address = Address::find($merchant->address);
-		$itemDetail = ItemDetail::where('item_id', $id)->first();
+		$itemDetail = ItemDetail::where('item_id', $item_id)->first();
 		$active = "orders";
 		return view('main.landing.order_details', compact('item', 'itemDetail', 'order', 'merchant', 'address', 'active'));
 	}
@@ -823,6 +842,18 @@ class MainController extends Controller
 		$active = "orders";
 		return view('main.landing.orders', compact('cart_items', 'active'));
 	}
+	public  function order_history(Request $request)
+	{
+		if (empty(Auth::user()->id)) {
+			toast()->error('Please login or sign up to continue.', 'Error!');
+
+			return redirect('/account');
+		}
+		$user_id = Auth::user()->id;
+		$cart_items = Order::where('user_id', $user_id)->where('status', '!=', 'Pending')->paginate(5);
+		$active = "order_history";
+		return view('main.landing.order_history', compact('cart_items', 'active'));
+	}
 	public  function my_notifications(Request $request)
 	{
 		if (empty(Auth::user()->id)) {
@@ -831,7 +862,7 @@ class MainController extends Controller
 			return redirect('/account');
 		}
 		$user_id = Auth::user()->id;
-		$notifications = Notification::where('notify_to', $user_id)->where('status', 'Pending')->paginate(5);
+		$notifications = Notification::orderBy('created_at', 'DESC')->where('notify_to', $user_id)->where('status', 'Pending')->paginate(5);
 		$user_id = Auth::user()->id;
 		foreach ($notifications as $notification) {
 			$notification = Notification::find($notification->id);
@@ -955,7 +986,7 @@ class MainController extends Controller
 		}
 		$user_id = Auth::user()->id;
 		$user_info = User::find($user_id);
-		$transactions = Transaction::where('from', $user_id)->get();
+		$transactions = Transaction::where('from', $user_id)->orderBy('created_at', 'DESC')->paginate(5);
 		$address_info = Address::where('id', $user_info->address)->first();
 		$credit_info = Credit::where('user_id', $user_id)->first();
 		$active = "search";
@@ -1053,7 +1084,7 @@ class MainController extends Controller
 			}
 
 
-			toast()->success('We have sent you an activation code at' . $request->email . '. Please enter the code here and to verify the email is yours.');
+			toast()->success('We have sent you an activation code at ' . $request->email . '. Please enter the code here and to verify the email is yours.');
 
 			return redirect('/finalize_registration');
 		} catch (\Exception $e) {
@@ -1079,7 +1110,7 @@ class MainController extends Controller
 		$activation_key_from_db = $user->activation_key;
 
 		$activation_key = $request->activation_key;
-		
+
 
 		if ($activation_key != $activation_key_from_db) {
 			toast()->error('Incorrect Activation Key.');
@@ -1090,7 +1121,7 @@ class MainController extends Controller
 
 			$user->activation_status = $updated_status;
 			$user->save();
-			toast()->success('You account is activated. Please login and continur with the new password.');
+			toast()->success('You account is activated. Please login and continue with the new password.');
 
 			return redirect('/account');
 		}

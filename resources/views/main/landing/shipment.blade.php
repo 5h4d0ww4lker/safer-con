@@ -12,17 +12,20 @@
             <div class="container">
                 <div class="categories_main_inner">
                     <div class="row row_disable">
-                      
+
                         <div class="col-lg-9 float-md-right">
 
                             <div class="categories_product_area">
                                 <div class="row">
+
                                     @if(Session::has('toasts'))
                                     @foreach(Session::get('toasts') as $toast)
-                                    <div class="alert alert-{{ $toast['level'] }}">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <div class="row col-lg-12 float-md-right">
+                                        <div class="alert alert-{{ $toast['level'] }}">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 
-                                        {{ $toast['message'] }}
+                                            {{ $toast['message'] }}
+                                        </div>
                                     </div>
                                     @endforeach
                                     @endif
@@ -30,9 +33,9 @@
                                         <div class="billing_details">
                                             <h2 class="reg_title">Shipment Information</h2>
                                             <form class="billing_inner row" action="{{ route('submit_shipment_info') }}" method="post">
-                                            {{ csrf_field() }}
+                                                {{ csrf_field() }}
 
-                                            <input type="hidden" name="order_id" value="{{$order_id}}" class="form-control" id="address" aria-describedby="address" required>
+                                                <input type="hidden" name="order_id" value="{{$order_id}}" class="form-control" id="address" aria-describedby="address" required>
 
                                                 <div class="col-lg-6">
 
@@ -72,35 +75,35 @@
                                                         </div>
                                                     </div>
 
-                                                  
-                                                   
+
+
                                                 </div>
                                                 <div class="col-lg-6">
 
 
-<div class="col-lg-12">
-    <div class="form-group">
-        <label for="address">Location<span>*</span></label>
-        <input type="text" name="location" value="{{$address_info->location}}" class="form-control" id="address" aria-describedby="address" required>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label for="address">Location<span>*</span></label>
+                                                            <input type="text" name="location" value="{{$address_info->location}}" class="form-control" id="address" aria-describedby="address" required>
 
-    </div>
-</div>
-<div class="col-lg-12">
-    <div class="form-group">
-        <label for="address">Building (Nearby building form your residence.) <span>*</span></label>
-        <input type="text" name="building" value="{{$address_info->building}}" class="form-control" id="address" aria-describedby="address" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label for="address">Building (Nearby building form your residence.) <span>*</span></label>
+                                                            <input type="text" name="building" value="{{$address_info->building}}" class="form-control" id="address" aria-describedby="address" required>
 
-    </div>
-</div>
-<div class="col-lg-12">
-    <div class="form-group">
-        <label for="phone">Phone <span>*</span></label>
-        <input type="text" name="phone_number_1" value="{{$user_info->phone_no}}" class="form-control" id="phone" aria-describedby="phone" required>
-    </div>
-</div>
-<button type="submit" value="submit" class="btn subs_btn form-control">Complete</button>
-<br><br>
-</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label for="phone">Phone <span>*</span></label>
+                                                            <input type="text" name="phone_number_1" value="{{$user_info->phone_no}}" class="form-control" id="phone" aria-describedby="phone" required>
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" value="submit" class="btn subs_btn form-control">Complete</button>
+                                                    <br><br>
+                                                </div>
 
                                             </form>
                                         </div>

@@ -118,7 +118,14 @@
                                     </table>
                                 </div>
                             </div>
-                          
+                            <div class="calculate_shoping_area">
+
+
+
+<nav aria-label="Page navigation example" class="pagination_area">
+    {{ $transactions->links() }}
+</nav>
+</div>
                         </div>
                        
                     </div>
