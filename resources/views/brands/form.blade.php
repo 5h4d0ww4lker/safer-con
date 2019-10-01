@@ -25,5 +25,8 @@
                                     <strong>{{ $errors->first('default_image') }}</strong>
                                 </span>
                                 @endif
+                                @if($brand)
+                <img src="{{ url('/' . $brand->default_image) }}" class="img-responsive img-thumbnail" width="200px" height="200px">
+                @endif        
     </div>
 </div>

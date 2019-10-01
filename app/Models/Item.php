@@ -40,6 +40,7 @@ class Item extends Model
                   'file_4',
                   'file_5',
                   'file_6',
+                  'status',
                   'created_by',
                   'updated_by'
               ];

@@ -74,8 +74,8 @@ class MainController extends Controller
 	{
 		$categories = Category::all()->take(5);
 		$secondaries = Category::all()->take(3);
-		$featured_products = Item::where('category_id', 16)->get();
-		$items = Item::paginate(8);
+		$featured_products = Item::where('status', 'ACTIVE')->where('category_id', 16)->get();
+		$items = Item::where('status', 'ACTIVE')->paginate(8);
 		$landing_pages = LandingPage::all();
 		$active = "home";
 		return view('main.landing.home', compact('categories', 'items', 'secondaries', 'featured_products', 'landing_pages', 'active'));
@@ -114,8 +114,8 @@ class MainController extends Controller
 	{
 		$categories = Category::all()->take(8);
 		$secondaries = Category::all()->take(3);
-		$featured_products = Item::where('category_id', 16)->get();
-		$items = Item::paginate(6);
+		$featured_products = Item::where('category_id', 16)->where('status', 'ACTIVE')->get();
+		$items = Item::where('status', 'ACTIVE')->paginate(6);
 		$active = "products";
 		return view('main.landing.products', compact('categories', 'items', 'secondaries', 'featured_products', 'active'));
 	}
@@ -124,8 +124,8 @@ class MainController extends Controller
 	{
 		$categories = Category::all()->take(8);
 		$secondaries = Category::all()->take(3);
-		$featured_products = Item::where('category_id', 16)->get();
-		$items = Item::orderBy('name', 'ASC')->paginate(6);
+		$featured_products = Item::where('status', 'ACTIVE')->where('category_id', 16)->get();
+		$items = Item::where('status', 'ACTIVE')->orderBy('name', 'ASC')->paginate(6);
 		$active = "products";
 		return view('main.landing.products', compact('categories', 'items', 'secondaries', 'featured_products', 'active'));
 	}
@@ -134,8 +134,8 @@ class MainController extends Controller
 	{
 		$categories = Category::all()->take(8);
 		$secondaries = Category::all()->take(3);
-		$featured_products = Item::where('category_id', 16)->get();
-		$items = Item::orderBy('created_at', 'DESC')->paginate(6);
+		$featured_products = Item::where('status', 'ACTIVE')->where('category_id', 16)->get();
+		$items = Item::where('status', 'ACTIVE')->orderBy('created_at', 'DESC')->paginate(6);
 		$active = "products";
 		return view('main.landing.products', compact('categories', 'items', 'secondaries', 'featured_products', 'active'));
 	}
@@ -145,7 +145,7 @@ class MainController extends Controller
 		$categories = Category::all()->take(8);
 		$secondaries = Category::all()->take(3);
 		$featured_products = Item::where('category_id', 16)->get();
-		$items = Item::paginate(6);
+		$items = Item::where('status', 'ACTIVE')->paginate(6);
 		$active = "search";
 		return view('main.landing.search', compact('categories', 'items', 'secondaries', 'featured_products', 'active'));
 	}
@@ -155,8 +155,8 @@ class MainController extends Controller
 		$categories = Category::all()->take(8);
 		$secondaries = Category::all()->take(3);
 		$featured_products = Item::where('category_id', 16)->get();
-		$items = Item::where('sub_category_id', $id)->paginate(6);
-		$brands = Item::where('sub_category_id', $id)->select('brand_id')->groupBy('brand_id')->get();
+		$items = Item::where('status', 'ACTIVE')->where('sub_category_id', $id)->paginate(6);
+		$brands = Item::where('status', 'ACTIVE')->where('sub_category_id', $id)->select('brand_id')->groupBy('brand_id')->get();
 		$active = "products";
 		return view('main.landing.by_category', compact('categories', 'items', 'secondaries', 'featured_products', 'brands', 'active'));
 	}
@@ -164,11 +164,11 @@ class MainController extends Controller
 	{
 		$categories = Category::all()->take(8);
 		$secondaries = Category::all()->take(3);
-		$featured_products = Item::where('category_id', 16)->get();
-		$items = Item::where('brand_id', $id)->paginate(6);
-		$sub_category_id =  Item::where('brand_id', $id)->first();
+		$featured_products = Item::where('status', 'ACTIVE')->where('category_id', 16)->get();
+		$items = Item::where('status', 'ACTIVE')->where('brand_id', $id)->paginate(6);
+		$sub_category_id =  Item::where('status', 'ACTIVE')->where('brand_id', $id)->first();
 
-		$brands = Item::where('sub_category_id', $sub_category_id['sub_category_id'])->select('brand_id')->groupBy('brand_id')->get();
+		$brands = Item::where('status', 'ACTIVE')->where('sub_category_id', $sub_category_id['sub_category_id'])->select('brand_id')->groupBy('brand_id')->get();
 		$active = "products";
 		return view('main.landing.by_category', compact('categories', 'items', 'secondaries', 'featured_products', 'brands'));
 	}
@@ -768,7 +768,9 @@ class MainController extends Controller
 		$itemDetail = ItemDetail::where('item_id', $id)->first();
 		$relatedProducts = Item::where('sub_category_id', $item['sub_category_id'])->get()->take(4);
 		$active = "product";
-		return view('main.landing.product_details', compact('item', 'itemDetail', 'relatedProducts', 'active'));
+		$merchant = User::find($item->created_by);
+		$address = Address::find($merchant->address);
+		return view('main.landing.product_details', compact('item', 'itemDetail', 'relatedProducts', 'active','merchant', 'address'));
 	}
 
 	public  function order_details($id)

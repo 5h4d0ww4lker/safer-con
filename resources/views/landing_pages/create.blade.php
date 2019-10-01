@@ -27,7 +27,32 @@ Landing Pages        </h1>
                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
                 </div>
             </div>
-          
+            <div class="col-md-12">
+                @if (!empty(Session::get('message')))
+                <div class="alert alert-success alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-check"></i> {{ Session::get('message') }}
+                </div>
+                @elseif (!empty(Session::get('exception')))
+                <div class="alert alert-warning alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-warning"></i> {{ Session::get('exception') }}
+                </div>
+                @endif
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-2">
+                    @if ($errors->any())
+                    <ul class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    @endif
+                </div>
+            </div>
             <form method="POST" action="{{ route('landing_pages.landing_page.store') }}" accept-charset="UTF-8" id="create_landing_page_form" name="create_landing_page_form" class="form-horizontal" enctype="multipart/form-data"> 
             {{ csrf_field() }}
             @include ('landing_pages.form', [

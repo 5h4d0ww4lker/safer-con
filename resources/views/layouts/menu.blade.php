@@ -11,7 +11,8 @@
     <ul class="sidebar-menu" data-widget="tree">
         <!--<li class="header">&nbsp;</li>-->
         <li><a href="{{ url('/dashboard')}}"><i class="fa fa-dashboard text-green"></i> <span>Dashboard</span></a></li>
-        @permission('show_category' || 'show_brand' || 'show_sub_category' || 'show_pay_rates')
+        @if (auth::user()->hasPermissionTo('show_category') || auth::user()->hasPermissionTo('show_sub_category') || auth::user()->hasPermissionTo('show_brand') || auth::user()->hasPermissionTo('show_pay_rate')|| auth::user()->hasPermissionTo('show_home')|| auth::user()->hasPermissionTo('show_contact'))
+
         <li class="treeview">
             <a href="#">
                 <i class="fa fa-cog text-green"></i> <span>Setting</span>
@@ -33,16 +34,18 @@
                 @permission('show_pay_rate')
                 <li><a href="{{ route('pay_rates.pay_rate.index') }}"><i class="fa fa-circle-o"></i> Manage Pay Rates</a></li>
                 @endpermission
-                @permission('show_pay_rate')
+                @permission('show_home')
                 <li><a href="{{ route('landing_pages.landing_page.index') }}"><i class="fa fa-circle-o"></i> Manage Home</a></li>
                 @endpermission
-                @permission('show_pay_rate')
+                @permission('show_contact')
                 <li><a href="{{ route('contacts.contact.index') }}"><i class="fa fa-circle-o"></i> Contacts</a></li>
                 @endpermission
             </ul>
         </li>
 
-        @endpermission
+
+
+        @endif
         @permission('show_item' || 'show_item_detail' || 'show_order')
         <li class="treeview">
             <a href="#">
@@ -66,7 +69,8 @@
             </ul>
         </li>
         @endpermission
-        @permission('show_credit' || 'show_transaction' || 'show_sub_category')
+        @if (auth::user()->hasPermissionTo('show_credit') || auth::user()->hasPermissionTo('show_credit_request') || auth::user()->hasPermissionTo('show_bank') || auth::user()->hasPermissionTo('show_transaction'))
+
         <li class="treeview">
             <a href="#">
                 <i class="fa fa-cog text-green"></i> <span>Financials</span>
@@ -75,16 +79,15 @@
                 </span>
             </a>
             <ul class="treeview-menu">
+
                 @permission('show_credit')
                 <li><a href="{{ route('credits.credit.index') }}"><i class="fa fa-circle-o"></i> Manage Credits</a></li>
                 @endpermission
-                @permission('show_credit')
 
-                @endpermission
-                @permission('show_credit')
+                @permission('show_credit_request')
                 <li><a href="{{ route('credit_requests.credit_request.index') }}"><i class="fa fa-circle-o"></i> Credit Requests</a></li>
                 @endpermission
-                @permission('show_credit')
+                @permission('show_bank')
                 <li><a href="{{ route('banks.bank.index') }}"><i class="fa fa-circle-o"></i> Banks</a></li>
                 @endpermission
                 <li><a href="{{ route('credit_requests.credit_request.my_requests') }}"><i class="fa fa-circle-o"></i>My Requests </a></li>
@@ -96,9 +99,10 @@
 
             </ul>
         </li>
-        @endpermission
+        @endif
 
-        @permission('show_user' || 'show_role')
+
+        @if (auth::user()->hasPermissionTo('show_user') || auth::user()->hasPermissionTo('show_merchant') || auth::user()->hasPermissionTo('show_admin') || auth::user()->hasPermissionTo('show_role'))
 
         <li class="treeview">
 
@@ -109,11 +113,11 @@
                 </span>
             </a>
             <ul class="treeview-menu">
-                @permission('show_user')
+                @permission('show_admin')
                 <li><a href="{{ url('/setting/super_admins') }}"><i class="fa fa-circle-o"></i> Manage Admins</a></li>
 
                 @endpermission
-                @permission('show_user')
+                @permission('show_merchant')
                 <li><a href="{{ url('/setting/merchants') }}"><i class="fa fa-circle-o"></i> Manage Merchants</a></li>
 
                 @endpermission
@@ -129,9 +133,9 @@
 
             </ul>
         </li>
+        @endif
 
 
-        @endpermission
         <li class="header">PROFILE SETTING</li>
 
         <li><a href="{{ url('/profile/user-profile') }}"><i class="fa fa-user text-green"></i> <span>Profile</span></a></li>

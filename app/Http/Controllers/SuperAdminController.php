@@ -13,9 +13,11 @@ use PDF;
 use Session;
 use App\Branch;
 use App\Department;
+use App\Models\Credit;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+
 class SuperAdminController extends Controller
 {
 
@@ -175,6 +177,13 @@ class SuperAdminController extends Controller
 		$attach_role->user_id = $user->id;
 		$attach_role->role_id = 2;
 		$attach_role->save();
+
+		$credit = new Credit();
+		$credit->amount = 0;
+		$credit->on_hold = 0;
+		$credit->user_id = $user->id;
+		$credit->created_by = $user->id;
+		$credit->save();
 		toast()->success('Hi ' . $request->get('name') . ', Your request has been recieved. We will contact you soon so you could start using the system. In the mean time your account will be inactive.');
 		return redirect('/register_merchant');
 	}
@@ -362,7 +371,7 @@ class SuperAdminController extends Controller
 	public function complete_reset(Request $request)
 	{
 		$email = session()->get('pr_email');
-		$user = User::where('email', $email)->where('role','!=', 100)->first();
+		$user = User::where('email', $email)->where('role', '!=', 100)->first();
 		$activation_key_from_db = $user->activation_key;
 
 		$activation_key = $request->activation_key;
@@ -371,7 +380,7 @@ class SuperAdminController extends Controller
 
 
 		if ($activation_key != $activation_key_from_db) {
-			
+
 
 			return redirect('/admin/finalize_reset')->with('exception', 'Incorrect Activation Key.');
 		}
@@ -384,14 +393,14 @@ class SuperAdminController extends Controller
 
 			$user->password = $updated_password;
 			$user->save();
-		
+
 			return redirect('/admin')->with('message', 'You resetted your password successfully. Please login and continur with the new password.');
 		}
 	}
 	public function send_reset_key(Request $request)
 	{
 		$email = $request->email;
-		$user = User::where('email', $email)->where('role','!=', 100)->first();
+		$user = User::where('email', $email)->where('role', '!=', 100)->first();
 		if ($user) {
 			$user->activation_key = rand(100000, 900000);
 			$user->save();
@@ -402,12 +411,11 @@ class SuperAdminController extends Controller
 					$m->to($user->email)->subject('Password Reset Request.');
 				});
 				return redirect('/admin/finalize_reset')->with('message', 'We have sent an activation key to ' . $email . 'Please enter the code we sent you so we could verify the request.');
-
 			} catch (Exception $exception) {
 
 				return redirect('/admin/finalize_reset')->with('error', 'Unable to send message');
 			}
-					}
+		}
 		if (!$user) {
 			return redirect('/admin/reset_password')->with('exception', 'We could not find a user account related with the given email. Please try again.');
 		}

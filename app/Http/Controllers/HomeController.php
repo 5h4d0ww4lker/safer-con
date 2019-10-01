@@ -67,7 +67,7 @@ class HomeController extends Controller
 			return redirect('/admin')->with('exception', 'Your account is not active yet or been deactivated because of violations.');
 		}
 
-		if ($access_label == 1) {
+		if ($role == 1) {
 			return $this->admin_dashboard();
 		} else {
 			return $this->merchant_dashbaord();

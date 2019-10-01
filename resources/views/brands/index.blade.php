@@ -28,9 +28,10 @@
                 </div>
             </div>
             <div class="box-body">
+            @permission('add_brand')
                 <a href="{{ route('brands.brand.create') }}" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i> Add </a>
                
-
+@endpermission
 
                 <!-- Notification Box -->
             </div>

@@ -74,7 +74,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-4">
                         <div class="product_details_text">
                             <h3>{{$item->name}}</h3>
                             <!-- <ul class="p_rating">
@@ -131,6 +131,34 @@
                             </div> -->
                         </div>
                     </div>
+                    <div class="col-lg-3 offset-1">
+                <div class="product_details_text">
+                    <h3>Merchant Info</h3>
+                    <!-- <ul class="p_rating">
+                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                            </ul>
+                            <div class="add_review">
+                                <a href="#">5 Reviews</a>
+                                <a href="#">Add your review</a>
+                            </div> -->
+                    <h6><span>Name:</span> {{$merchant->name}}&nbsp;{{$merchant->father_name}}</h6>
+                    <h6><span>Email: </span>{{$merchant->email}}</h6>
+                    <p><span>Region:</span> {{$address->region}} <br />
+                    <span>City:</span> {{$address->city}} <br />
+                    <span>Sub City:</span> {{$address->sub_city}} <br/>
+                    <span>Location: </span>{{$address->location}} <br />
+                    <span>Building: </span>{{$address->building}}
+
+
+                    </p>
+                  
+
+                </div>
+            </div>
                 </div>
             </div>
         </section>

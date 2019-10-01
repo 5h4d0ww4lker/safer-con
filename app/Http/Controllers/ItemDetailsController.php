@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Exception;
+use Session;
 
 class ItemDetailsController extends Controller
 {
@@ -42,8 +43,8 @@ class ItemDetailsController extends Controller
     public function create()
     {
         $user_id = Auth::user()->id;
-       // $items = Item::pluck('name', 'id')->where('created_by', $user_id)->get();
-     //  dd($user_id);
+        // $items = Item::pluck('name', 'id')->where('created_by', $user_id)->get();
+        //  dd($user_id);
         $items = Item::where('created_by', $user_id)->pluck('name', 'id');
         $creators = User::pluck('name', 'id')->all();
         $updaters = User::pluck('name', 'id')->all();
@@ -61,17 +62,31 @@ class ItemDetailsController extends Controller
     public function store(Request $request)
     {
         try {
+           
 
             $data = $this->getData($request);
+
             $data['created_by'] = Auth::Id();
             ItemDetail::create($data);
+
+            $item = Item::find($request->item_id);
+            $item->status = 'ACTIVE';
+            $item->save();
+            try{
+            if (Session::get('item_id')) {
+                Session::forget('item_id');
+            }
+        }
+        catch(Exception $e){
+            return $e->getMessage();
+        }
 
             return redirect()->route('item_details.item_detail.index')
                 ->with('message', 'Item Detail was successfully added.');
         } catch (Exception $exception) {
 
             return back()->withInput()
-                ->withErrors(['exception' => 'Unexpected error occurred while trying to process your request.']);
+                ->withErrors(['exception' => 'Please fill all the fields marked with *']);
         }
     }
 
@@ -129,7 +144,7 @@ class ItemDetailsController extends Controller
         } catch (Exception $exception) {
 
             return back()->withInput()
-                ->withErrors(['exception' => 'Unexpected error occurred while trying to process your request.']);
+                ->withErrors(['exception' => 'Please fill all the fields marked with *.']);
         }
     }
 
@@ -166,11 +181,11 @@ class ItemDetailsController extends Controller
     {
         $rules = [
             'item_id' => 'required',
-            'description' => 'nullable|string|min:0|max:1000',
-            'stock' => 'nullable|string|min:0|max:20',
-            'size' => 'nullable|string|min:0|max:20',
-            'color' => 'nullable|string|min:0|max:100',
-            'additional_info' => 'nullable|string|min:0|max:1000',
+            'description' => 'required|string|min:0|max:1000',
+            'stock' => 'required|string|min:0|max:20',
+            'size' => 'required|string|min:0|max:20',
+            'color' => 'required|string|min:0|max:100',
+            'additional_info' => 'required|string|min:0|max:1000',
 
         ];
 

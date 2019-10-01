@@ -35,5 +35,8 @@
                                     <strong>{{ $errors->first('default_image') }}</strong>
                                 </span>
                                 @endif
+                                @if($subCategory)
+                      <img src="{{ url('/' . $subCategory->default_image) }}" class="img-responsive img-thumbnail"   width="200px" height="200px">
+                @endif        
     </div>
 </div>

@@ -64,7 +64,7 @@
                         <tr>
                             <th>#</th>
                             <th>Item</th>
-                            <th>Description</th>
+                            <th >Description</th>
                             <th>In Stock</th>
                             <th>Size</th>
                             <th>Color</th>
@@ -78,11 +78,11 @@
                         @foreach($itemDetails as $itemDetail)
                         <tr><td>{{$sl++}}</td>
                             <td>{{ optional($itemDetail->item)->name }}</td>
-                            <td>{{ $itemDetail->description }}</td>
+                            <td>{{ substr($itemDetail->description,0,30) }}..</td>
                             <td>{{ $itemDetail->stock }}</td>
                             <td>{{ $itemDetail->size }}</td>
-                            <td>{{ $itemDetail->color }}</td>
-                            <td>{{ $itemDetail->additional_info }}</td>
+                            <td>{{ substr( $itemDetail->color,0,30) }}..</td>
+                            <td>{{ substr($itemDetail->additional_info,0,30) }}..</td>
 
 
                             <td>
@@ -95,12 +95,12 @@
                                         <!-- <a href="{{ route('item_details.item_detail.show', $itemDetail->id ) }}" class="btn btn-info" title="Show Item Detail">
                                             <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
                                         </a> -->
-                                        @permission('edit_item_details')
+                                        @permission('edit_item_detail')
                                         <a href="{{ route('item_details.item_detail.edit', $itemDetail->id ) }}" class="btn btn-primary" title="Edit Item Detail">
                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                         </a>
                                         @endpermission
-                                        @permission('delete_item_details')
+                                        @permission('delete_item_detail')
                                         <button type="submit" class="btn btn-danger" title="Delete Item Detail" onclick="return confirm(&quot;Click Ok to delete Item Detail.&quot;)">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                         </button>

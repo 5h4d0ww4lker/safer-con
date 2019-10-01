@@ -7,7 +7,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-Item Details        </h1>
+            Item Details </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url('#') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
             <li><a href="{{ url('#') }}">Item Details</a></li>
@@ -28,12 +28,37 @@ Item Details        </h1>
                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
                 </div>
             </div>
+            <div class="col-md-12">
+                @if (!empty(Session::get('message')))
+                <div class="alert alert-success alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-check"></i> {{ Session::get('message') }}
+                </div>
+                @elseif (!empty(Session::get('exception')))
+                <div class="alert alert-warning alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-warning"></i> {{ Session::get('exception') }}
+                </div>
+                @endif
 
+
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-2">
+                    @if ($errors->any())
+                    <ul class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    @endif
+                </div>
+            </div>
             <form method="POST" action="{{ route('item_details.item_detail.store') }}" accept-charset="UTF-8" id="create_item_detail_form" name="create_item_detail_form" class="form-horizontal">
-            {{ csrf_field() }}
-            @include ('item_details.form', [
-                                        'itemDetail' => null,
-                                      ])
+                {{ csrf_field() }}
+                @include ('item_details.form', [
+                'itemDetail' => null,
+                ])
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
@@ -43,14 +68,10 @@ Item Details        </h1>
 
             </form>
 
-            </div>
+        </div>
         <!-- /.box -->
     </section>
     <!-- /.content -->
 </div>
 
 @endsection
-
-
-
-

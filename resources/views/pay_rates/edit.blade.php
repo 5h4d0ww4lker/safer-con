@@ -24,6 +24,32 @@
 
 
             </div>
+            <div class="col-md-12">
+                @if (!empty(Session::get('message')))
+                <div class="alert alert-success alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-check"></i> {{ Session::get('message') }}
+                </div>
+                @elseif (!empty(Session::get('exception')))
+                <div class="alert alert-warning alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-warning"></i> {{ Session::get('exception') }}
+                </div>
+                @endif
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-2">
+                    @if ($errors->any())
+                    <ul class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    @endif
+                </div>
+            </div>
             <form method="POST" action="{{ route('pay_rates.pay_rate.update', $payRate->id) }}" id="edit_pay_rate_form" name="edit_pay_rate_form" accept-charset="UTF-8" class="form-horizontal">
                 {{ csrf_field() }}
                 <input name="_method" type="hidden" value="PUT">

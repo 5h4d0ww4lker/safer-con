@@ -103,9 +103,9 @@ Route::group(['middleware' => 'auth'], function () {
      Route::get('/dashboard', 'HomeController@index')->name('dashboard');
      Route::get('/file', 'HomeController@file');
      // Super Admins Section //
-     Route::get('/setting/super_admins', 'SuperAdminController@index');
-     Route::get('/setting/merchants', 'SuperAdminController@merchants');
-     Route::get('/setting/users', 'SuperAdminController@users');
+     Route::get('/setting/super_admins', 'SuperAdminController@index')->middleware('checkPermission:show_admin');
+     Route::get('/setting/merchants', 'SuperAdminController@merchants')->middleware('checkPermission:show_merchant');
+     Route::get('/setting/users', 'SuperAdminController@users')->middleware('checkPermission:show_user');
 
      Route::get('/setting/super_admins/create', 'SuperAdminController@create')->middleware('checkPermission:add_user');
      Route::post('/setting/super_admins/store', 'SuperAdminController@store')->middleware('checkPermission:add_user');

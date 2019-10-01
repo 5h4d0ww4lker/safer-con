@@ -86,6 +86,7 @@
                             <th>Sub Category</th>
                             <th>Brand</th>
                             <th>In Stock</th>
+                            <th>Status</th>
 
                             <th>Created By</th>
                             <th>Created At</th>
@@ -105,11 +106,12 @@
 
                             ?>
                             <td>{{$sl++}}</td>
-                            <td>{{ $item->name }}</td>
+                            <td>{{ substr($item->name,0,10) }}..</td>
                             <td>{{ $item->item_price }}</td>
-                            <td>{{ $category->name }}</td>
-                            <td>{{ $sub_category->name }}</td>
+                            <td>{{ substr($category->name,0,15) }}..</td>
+                            <td>{{ substr($sub_category->name,0,10) }}..</td>
                             <td>{{ $brand->name }}</td>
+                            @if($stock)
                             <td>
                                 @if($stock->stock >= 5)
                                 <span class="label label-success">{{ $stock->stock }} &nbsp; Items Remaining</span>
@@ -122,9 +124,22 @@
                                 @endif
 
                             </td>
+                            @else
+                            <td><span class="label label-danger">N/A</span></td>
+                            @endif
+                            <td>
+                                @if($item->status == 'ACTIVE')
+                                <span class="label label-success">Active</span>
+                                @endif
+                               
+                                @if($item->status == 'INACTIVE')
+                                <span class="label label-danger">Inactive</span>
+                                @endif
+
+                            </td>
 
                             <td>{{ optional($item->creator)->name }}</td>
-                            <td>{{ $item->created_at }}</td>
+                            <td>{{ substr($item->created_at,0,10) }}</td>
 
                             <td>
 

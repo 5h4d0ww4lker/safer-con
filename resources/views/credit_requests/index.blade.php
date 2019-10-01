@@ -28,7 +28,9 @@
                 </div>
             </div>
             <div class="box-body">
+                @permission('add_credit_request')
                 <a href="{{ route('credit_requests.credit_request.create') }}" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i> Add </a>
+                @endpermission
                 <div class="btn-group pull-right">
                     <button type="button" class="tip btn btn-info btn-flat pull-right dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         Reports <span class="caret"></span>
@@ -104,20 +106,20 @@
                             <td>{{ optional($creditRequest->updater)->name }}</td>
                             <td>
                                 @if($creditRequest->status == 'Pending')
-                                
-                           <span class="label label-warning">Pending</span>
-                           @endif
-                           @if($creditRequest->status == 'Confirmed')
-                                
+
+                                <span class="label label-warning">Pending</span>
+                                @endif
+                                @if($creditRequest->status == 'Confirmed')
+
                                 <span class="label label-success">Confirmed</span>
                                 @endif
                                 @if($creditRequest->status == 'Declined')
-                                
+
                                 <span class="label label-danger">Declined</span>
                                 @endif
-                        
-                        
-                        </td>
+
+
+                            </td>
 
                             <td>
 
@@ -126,12 +128,12 @@
                                     {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-xs pull-right" role="group">
-                                     
+                                        @permission('edit_credit_request')
                                         <a href="{{ route('credit_requests.credit_request.edit', $creditRequest->id ) }}" class="btn btn-primary" title="Edit Credit Request">
                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                         </a>
+                                        @endpermission
 
-                                        
                                     </div>
 
                                 </form>

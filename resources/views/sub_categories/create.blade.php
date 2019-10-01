@@ -26,6 +26,32 @@
 
               
             </div>
+            <div class="col-md-12">
+                @if (!empty(Session::get('message')))
+                <div class="alert alert-success alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-check"></i> {{ Session::get('message') }}
+                </div>
+                @elseif (!empty(Session::get('exception')))
+                <div class="alert alert-warning alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-warning"></i> {{ Session::get('exception') }}
+                </div>
+                @endif
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-2">
+                    @if ($errors->any())
+                    <ul class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    @endif
+                </div>
+            </div>
             <!-- /.box-header -->
 
             <form method="POST" action="{{ route('sub_categories.sub_category.store') }}" accept-charset="UTF-8" id="create_sub_category_form" name="create_sub_category_form" class="form-horizontal" enctype="multipart/form-data">

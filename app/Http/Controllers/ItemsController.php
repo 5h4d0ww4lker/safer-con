@@ -12,6 +12,9 @@ use Exception;
 use App\Models\Brand;
 use App\Models\SubCategory;
 use App\Models\Category;
+use App\Models\Credit;
+use App\Models\ItemDetail;
+use App\Models\PayRate;
 use Session;
 
 class ItemsController extends Controller
@@ -27,7 +30,7 @@ class ItemsController extends Controller
         $user_id = Auth::user()->id;
         $user = User::where('id', $user_id)->get();
 
-        $access_label = $user['0']['access_label'];
+        $access_label = $user['0']['role'];
 
         $request->session()->forget('start_date');
         $request->session()->forget('end_date');
@@ -80,6 +83,7 @@ class ItemsController extends Controller
     {
         try {
 
+
             $data = $this->getData($request);
             $item = new Item();
             $item->created_by = Auth::user()->id;
@@ -88,6 +92,27 @@ class ItemsController extends Controller
             $item->category_id = request()->category_id;
             $item->sub_category_id = request()->sub_category_id;
             $item->brand_id = request()->brand_id;
+            $item->status = 'INACTIVE';
+
+
+
+            $user_id =  Auth::user()->id;
+            $credit = Credit::where('user_id', $user_id)->first();
+            $available_credit = $credit->amount;
+
+            $category = Category::find(request()->category_id);
+            $pay_rate_id = $category->pay_rate;
+            $pay_rate = PayRate::find($pay_rate_id);
+            $percentage = $pay_rate->percentage_from_merchant;
+            $price = request()->item_price;
+            $commission = $price * $percentage;
+
+            if ($commission > $available_credit) {
+
+                return back()->withInput()
+                    ->withErrors(['exception' => 'You can not add this item because youre credit is lower than '.$percentage.' percent of the item price.']);
+            }
+
             if (!empty($data['file_1'])) {
                 $file_1 = time() . '.' . request()->file_1->getClientOriginalExtension();
 
@@ -142,11 +167,12 @@ class ItemsController extends Controller
             //   die(print_r($data));
             //Item::create($data);
             $item->save();
+            Session::put('item_id', $item->id);
 
 
 
-            return redirect()->route('items.item.index')
-                ->with('message', 'Item was successfully added.');
+            return redirect()->route('item_details.item_detail.create')
+                ->with('message', 'Item was successfully added. Please details for the Item.');
         } catch (Exception $exception) {
             return $exception;
             return back()->withInput()
@@ -208,6 +234,14 @@ class ItemsController extends Controller
             $item->category_id = request()->category_id;
             $item->sub_category_id = request()->sub_category_id;
             $item->brand_id = request()->brand_id;
+
+            $item_detail = ItemDetail::where('item_id', $id)->first();
+            if ($request->status == 'ACTIVE' && !$item_detail) {
+                Session::put('item_id', $id);
+                return redirect()->route('item_details.item_detail.create')
+                    ->with('exception', 'You need to add item details to make an item active.');
+            }
+            $item->status = request()->status;
             if (!empty($data['file_1'])) {
                 $file_1 = time() . '.' . request()->file_1->getClientOriginalExtension();
 

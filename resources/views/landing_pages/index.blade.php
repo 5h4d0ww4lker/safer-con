@@ -87,8 +87,8 @@
                            
                             <td>{{$sl++}}</td>
                             <td>{{ $landingPage->title }}</td>
-                            <td>{{ $landingPage->heading }}</td>
-                            <td>{{ $landingPage->content }}</td>
+                            <td>{{ substr($landingPage->heading,0,15) }}..</td>
+                            <td>{{ substr($landingPage->content,0,15) }}..</td>
                           
 
                             <td>{{ optional($landingPage->creator)->name }}</td>

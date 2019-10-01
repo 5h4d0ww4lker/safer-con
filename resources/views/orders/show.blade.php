@@ -22,13 +22,13 @@
                     <h4 class="mt-5 mb-5">{{ isset($title) ? $title : 'Order' }}</h4>
                 </span>
 
-               
+
 
             </div>
 
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <dl class="dl-horizontal">
                             <h5>Ordered By</h5>
                             <dt>User</dt>
@@ -41,18 +41,29 @@
                             <dd>{{ $order->price }}</dd>
                             <dt>Toatl Amount</dt>
                             <dd>{{ $order->toatl_amount }}</dd>
-                            <dt>Status</dt>
+                            <dt> @if($order->status == 'Pending')
+
+                                <span class="label label-warning">Pending</span>
+                                @endif
+                                @if($order->status == 'Confirmed')
+
+                                <span class="label label-success">Confirmed</span>
+                                @endif
+                                @if($order->status == 'Canceled')
+
+                                <span class="label label-danger">Canceled</span>
+                                @endif</dt>
                             <dd>{{ $order->status }}</dd>
                             <dt>Ordered At</dt>
                             <dd>{{ $order->created_at }}</dd>
 
                         </dl>
                     </div>
-                    <div class="col-md-6">
-                    <dl class="dl-horizontal">
-                        <h5>Ship to</h5>
-                            <?php 
-$address =   \App\Address::find($order->ship_to);
+                    <div class="col-md-4">
+                        <dl class="dl-horizontal">
+                            <h5>Ship to</h5>
+                            <?php
+                            $address =   \App\Address::find($order->ship_to);
                             ?>
                             <dt>Region</dt>
                             <dd>{{$address->region }}</dd>
@@ -64,9 +75,18 @@ $address =   \App\Address::find($order->ship_to);
                             <dd>{{ $address->location }}</dd>
                             <dt>Building</dt>
                             <dd>{{ $address->building }}</dd>
-                           
+
                             <dt>Contact Phone</dt>
                             <dd>{{ $address->phone_number_1	 }}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dl class="dl-horizontal">
+                            <h5>Image</h5>
+
+
+                            <img src="{{ url('/' . $order->item->file_1) }}" class="img-responsive img-thumbnail" width="200px" height="200px">
+
                     </div>
                 </div>
 

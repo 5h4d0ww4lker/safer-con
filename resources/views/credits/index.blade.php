@@ -28,7 +28,9 @@
                 </div>
             </div>
             <div class="box-body">
+            @permission('add_credit')
                 <a href="{{ route('credits.credit.create') }}" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i> Add </a>
+              @endpermission
                 <div class="btn-group pull-right">
                     <button type="button" class="tip btn btn-info btn-flat pull-right dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         Reports <span class="caret"></span>

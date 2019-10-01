@@ -60,6 +60,7 @@
                         <tr>
                             <th>#</th>
                             <th>Message</th>
+                            <th>Status</th>
 
                             <th>Date</th>
                         </tr>
@@ -72,9 +73,20 @@
                         <tr>
                             <td>{{$i++}}</td>
                             <td>{{ $notification->content }}</td>
+                            <td>
+                                @if($notification->status == 'Pending')
+
+                                <span class="label label-warning">Pending</span>
+                                @endif
+                                @if($notification->status == 'Seen')
+
+                                <span class="label label-success">Seen</span>
+                                @endif
+
+                            </td>
                             <td>{{ $notification->created_at }}</td>
 
-
+                           
                         </tr>
                         @endforeach
                     </tbody>

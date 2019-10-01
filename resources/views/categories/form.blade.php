@@ -30,7 +30,10 @@
                                 <span class="help-block">
                                     <strong>{{ $errors->first('default_image') }}</strong>
                                 </span>
-                                @endif
+                                @if($category)
+                <img src="{{ url('/' . $brand->default_image) }}" class="img-responsive img-thumbnail" width="200px" height="200px">
+                <img src="{{ url('/' . $category->default_image) }}"   width="200px" height="200px">
+                @endif                              @endif
     </div>
 </div>
 

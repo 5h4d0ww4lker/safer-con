@@ -7,7 +7,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-Items        </h1>
+            Items </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url('#') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
             <li><a href="{{ url('#') }}">Items</a></li>
@@ -28,26 +28,51 @@ Items        </h1>
                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
                 </div>
             </div>
-          
-            <form method="POST" action="{{ route('items.item.update', $item->id) }}" id="edit_item_form" name="edit_item_form" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
-            {{ csrf_field() }}
-            <input name="_method" type="hidden" value="PUT">
-            @include ('items.form', [
-                                        'item' => $item,
-                                      ])
+            <div class="col-md-12">
+                @if (!empty(Session::get('message')))
+                <div class="alert alert-success alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-check"></i> {{ Session::get('message') }}
+                </div>
+                @elseif (!empty(Session::get('exception')))
+                <div class="alert alert-warning alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-warning"></i> {{ Session::get('exception') }}
+                </div>
+                @endif
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input class="btn btn-primary" type="submit" value="Update">
+
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-2">
+                    @if ($errors->any())
+                    <ul class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    @endif
+                </div>
+            </div>
+            <form method="POST" action="{{ route('items.item.update', $item->id) }}" id="edit_item_form" name="edit_item_form" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                <input name="_method" type="hidden" value="PUT">
+                @include ('items.form', [
+                'item' => $item,
+                ])
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-10 pull-left">
+                            <input class="btn btn-primary" type="submit" value="Update">
+                        </div>
                     </div>
                 </div>
             </form>
 
-            </div>
+        </div>
         <!-- /.box -->
     </section>
     <!-- /.content -->
 </div>
 
 @endsection
-
