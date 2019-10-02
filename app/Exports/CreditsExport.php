@@ -55,7 +55,7 @@ class CreditsExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
     {
         return [
 
-            $credit->name = User::find($credit->created_by)->name . '' . User::find($credit->created_by)->father_name,
+            $credit->name = User::find($credit->created_by)->name . ' ' . User::find($credit->created_by)->father_name,
             $credit->amount = $credit->amount.' ETB',
             $credit->on_hold = $credit->on_hold.' ETB',
 

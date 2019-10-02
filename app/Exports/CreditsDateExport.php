@@ -47,7 +47,7 @@ class CreditsDateExport implements FromQuery, WithHeadings, ShouldAutoSize, With
     public function map($credit): array
     {
         return [
-            $credit->name = User::find($credit->created_by)->name . '' . User::find($credit->created_by)->father_name,
+            $credit->name = User::find($credit->created_by)->name . ' ' . User::find($credit->created_by)->father_name,
             $credit->amount = $credit->amount.' ETB',
             $credit->on_hold = $credit->on_hold.' ETB',
            

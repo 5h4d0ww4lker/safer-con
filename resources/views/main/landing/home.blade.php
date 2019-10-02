@@ -140,7 +140,7 @@
                             <h3>{{$secondary->name}}</h3>
                             <ul>
                                 @foreach($sub_categories as $sub_category)
-                                <li><a href="#">{{$sub_category->name}}</a></li>
+                                <li><a href="{{ url('/byCategory/'.$sub_category->id) }}">{{$sub_category->name}}</a></li>
                                 @endforeach
                             </ul>
                         </div>

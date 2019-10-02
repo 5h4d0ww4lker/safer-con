@@ -12,7 +12,7 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('#') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
             <li><a href="{{ url('#') }}">Credit</a></li>
-            <li class="active">Add Credit</li>
+            <li class="active">My Credit Info</li>
         </ol>
     </section>
 
@@ -22,7 +22,7 @@
         <!-- SELECT2 EXAMPLE -->
         <div class="box box-default col-md-offset-2  col-md-6">
             <div class="box-header with-border">
-                <h3 class="box-title">Add Credit</h3>
+                <h3 class="box-title">My Credit Info</h3>
 
 
             </div>

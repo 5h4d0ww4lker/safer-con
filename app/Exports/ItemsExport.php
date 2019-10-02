@@ -63,7 +63,7 @@ class ItemsExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMappin
             $item->category = Category::find($item->category_id)->name,
             $item->sub_category = SubCategory::find($item->sub_category_id)->name,
             $item->brand = Brand::find($item->brand_id)->name,
-            $item->created_by = User::find($item->created_by)->name . '' . User::find($item->created_by)->father_name,
+            $item->created_by = User::find($item->created_by)->name . ' ' . User::find($item->created_by)->father_name,
 
 
 

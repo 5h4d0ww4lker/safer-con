@@ -55,8 +55,8 @@ class TransactionsDateExport implements FromQuery, WithHeadings, ShouldAutoSize,
     public function map($transaction): array
     {
         return [
-            $transaction->from = User::find($transaction->from)->name . '' . User::find($transaction->from)->father_name,
-            $transaction->to = User::find($transaction->to)->name . '' . User::find($transaction->to)->father_name,
+            $transaction->from = User::find($transaction->from)->name . ' ' . User::find($transaction->from)->father_name,
+            $transaction->to = User::find($transaction->to)->name . ' ' . User::find($transaction->to)->father_name,
             $transaction->amount =$transaction->amount.' ETB',
             $transaction->status = $transaction->status,
  

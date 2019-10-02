@@ -170,7 +170,7 @@ class MainController extends Controller
 
 		$brands = Item::where('status', 'ACTIVE')->where('sub_category_id', $sub_category_id['sub_category_id'])->select('brand_id')->groupBy('brand_id')->get();
 		$active = "products";
-		return view('main.landing.by_category', compact('categories', 'items', 'secondaries', 'featured_products', 'brands'));
+		return view('main.landing.by_category', compact('categories', 'items', 'secondaries', 'featured_products', 'brands', 'active'));
 	}
 	public  function contact(Request $request)
 	{

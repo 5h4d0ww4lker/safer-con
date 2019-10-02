@@ -56,8 +56,8 @@ class TransactionsExport implements FromQuery, WithHeadings, ShouldAutoSize, Wit
     {
         return [
 
-            $transaction->from = User::find($transaction->from)->name . '' . User::find($transaction->from)->father_name,
-            $transaction->to = User::find($transaction->to)->name . '' . User::find($transaction->to)->father_name,
+            $transaction->from = User::find($transaction->from)->name . ' ' . User::find($transaction->from)->father_name,
+            $transaction->to = User::find($transaction->to)->name . ' ' . User::find($transaction->to)->father_name,
             $transaction->amount = $transaction->amount.' ETB',
             $transaction->status = $transaction->status,
 
