@@ -6,7 +6,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-           Sub Caregories
+            Sub Caregories
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url('/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -23,58 +23,51 @@
                 <h3 class="box-title">Manage sub categories</h3>
 
                 <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                     <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                 </div>
             </div>
             <div class="box-body">
+                @permission('add_sub_category')
                 <a href="{{ route('sub_categories.sub_category.create') }}" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i> Add </a>
-                      <div class="btn-group pull-right">
-                                    <button type="button" class="tip btn btn-info btn-flat pull-right dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        Reports <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{{ url('#') }}"><i class="icon fa fa-print"></i> Print</a></li>
-                                        <li><a href="{{ url('#') }}"><i class="icon fa fa-file"></i> PDF</a></li>
-                                        <li><a href="{{ url('#') }}"><i class="icon fa fa-list"></i> Excel</a></li>
-                                    </ul>
-                                </div>
-               
-               
+
+                @endpermission
+
                 <!-- Notification Box -->
             </div>
-             <hr>
-                <div class="col-md-12">
-                    @if (!empty(Session::get('message')))
-                    <div class="alert alert-success alert-dismissible" id="notification_box">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <i class="icon fa fa-check"></i> {{ Session::get('message') }}
-                    </div>
-                    @elseif (!empty(Session::get('exception')))
-                    <div class="alert alert-error alert-dismissible" id="notification_box">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <i class="icon fa fa-warning"></i> {{ Session::get('exception') }}
-                    </div>
-                    @endif
+            <hr>
+            <div class="col-md-12">
+                @if (!empty(Session::get('message')))
+                <div class="alert alert-success alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-check"></i> {{ Session::get('message') }}
                 </div>
-                <!-- /.Notification Box -->
-     <form action="{{ url('people/employees') }}" method="get" name="employee_add_form" enctype="multipart/form-data">
-    <p id="date_filter">
-         {{ csrf_field() }}
-    <span id="date-label-from" class="date-label">From: </span><input class="date_range_filter date" name="start_date" type="text" id="datepicker3" />
-    <span id="date-label-to" class="date-label">To:<input class="date_range_filter date" type="text" name="end_date" id="datepicker4" />
-    <!-- <input type="hidden" name="table" value="employees"> 
+                @elseif (!empty(Session::get('exception')))
+                <div class="alert alert-error alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-warning"></i> {{ Session::get('exception') }}
+                </div>
+                @endif
+            </div>
+            <!-- /.Notification Box -->
+            <form action="{{ url('people/employees') }}" method="get" name="employee_add_form" enctype="multipart/form-data">
+                <p id="date_filter">
+                    {{ csrf_field() }}
+                    <span id="date-label-from" class="date-label">From: </span><input class="date_range_filter date" name="start_date" type="text" id="datepicker3" />
+                    <span id="date-label-to" class="date-label">To:<input class="date_range_filter date" type="text" name="end_date" id="datepicker4" />
+                        <!-- <input type="hidden" name="table" value="employees"> 
      <input type="hidden" name="request" value="people/employees">  -->
-    <button type="submit" class="btn btn-primary btn-filter"><i class="icon fa fa-filter"></i> Filter</button>
-    </p>
+                        <button type="submit" class="btn btn-primary btn-filter"><i class="icon fa fa-filter"></i> Filter</button>
+                </p>
 
-</form>
+            </form>
             <div class="table-responsive">
 
                 <table id="example1" class="table table-striped ">
                     <thead>
-                        <tr><th width="15%">#</th>
-                             <th>Sub Category</th>
+                        <tr>
+                            <th width="15%">#</th>
+                            <th>Sub Category</th>
                             <th>Category</th>
                             <th>Created By</th>
                             <th>Created At</th>
@@ -83,11 +76,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <?php $sl = 1 ?>
-                    @foreach($subCategories as $subCategory)
+                        <?php $sl = 1 ?>
+                        @foreach($subCategories as $subCategory)
                         <tr>
-                        <td>{{$sl++}}</td>
-                        <td>{{ $subCategory->name }}</td>
+                            <td>{{$sl++}}</td>
+                            <td>{{ $subCategory->name }}</td>
                             <td>{{ optional($subCategory->category)->name }}</td>
                             <td>{{ $subCategory->creator->name }}</td>
                             <td>{{ $subCategory->created_at }}</td>
@@ -95,11 +88,11 @@
                             <td>
 
                                 <form method="POST" action="{!! route('sub_categories.sub_category.destroy', $subCategory->id) !!}" accept-charset="UTF-8">
-                                <input name="_method" value="DELETE" type="hidden">
-                                {{ csrf_field() }}
+                                    <input name="_method" value="DELETE" type="hidden">
+                                    {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-xs pull-right" role="group">
-                                    @permission('show_sub_category')
+                                        @permission('show_sub_category')
                                         <a href="{{ route('sub_categories.sub_category.show', $subCategory->id ) }}" class="btn btn-info" title="Show Sub Category">
                                             <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
                                         </a>
@@ -117,23 +110,23 @@
                                     </div>
 
                                 </form>
-                                
+
                             </td>
                         </tr>
-                    @endforeach
+                        @endforeach
                     </tbody>
                 </table>
 
-                </div>
-       
+            </div>
 
-       <div class="box-footer">
-           {!! $subCategories->render() !!}
-       </div>
-       
-     
-   
-   </div>
-   </section>
+
+            <div class="box-footer">
+                {!! $subCategories->render() !!}
+            </div>
+
+
+
+        </div>
+    </section>
 </div>
 @endsection

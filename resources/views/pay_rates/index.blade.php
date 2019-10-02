@@ -29,13 +29,15 @@
                 </div>
             </div>
             <div class="box-body">
+                @permission('add_pay_rate')
                 <a href="{{ route('pay_rates.pay_rate.create') }}" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i> Add </a>
+                @endpermission
                 <div class="btn-group pull-right">
                     <button type="button" class="tip btn btn-info btn-flat pull-right dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         Reports <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                      
+
                         <li><a href="{{ url('/payRates/pdf') }}"><i class="icon fa fa-file"></i> PDF</a></li>
                         <li><a href="{{ url('/payRates/excel') }}"><i class="icon fa fa-list"></i> Excel</a></li>
                     </ul>
@@ -80,58 +82,60 @@
                             <th>Percentage From Customer</th>
                             <th>Created By</th>
                             <th>Updated By</th>
-                           
+
 
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                    <?php $sl = 1 ?>
-                    @foreach($payRates as $payRate)
+                        <?php $sl = 1 ?>
+                        @foreach($payRates as $payRate)
                         <tr>
-                        <td>{{$sl++}}</td>
+                            <td>{{$sl++}}</td>
                             <td>{{ $payRate->name }}</td>
                             <td>{{ $payRate->percentage_from_merchant }}%</td>
                             <td>{{ $payRate->percentage_from_customer }}%</td>
                             <td>{{ optional($payRate->creator)->name }}</td>
                             <td>{{ optional($payRate->updater)->name }}</td>
-                            
+
 
                             <td>
 
                                 <form method="POST" action="{!! route('pay_rates.pay_rate.destroy', $payRate->id) !!}" accept-charset="UTF-8">
-                                <input name="_method" value="DELETE" type="hidden">
-                                {{ csrf_field() }}
+                                    <input name="_method" value="DELETE" type="hidden">
+                                    {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-xs pull-right" role="group">
-                                      
+                                        @permission('edit_pay_rate')
                                         <a href="{{ route('pay_rates.pay_rate.edit', $payRate->id ) }}" class="btn btn-primary" title="Edit Pay Rate">
                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                         </a>
-
+                                        @endpermission
+                                        @permission('delete_pay_rate')
                                         <button type="submit" class="btn btn-danger" title="Delete Pay Rate" onclick="return confirm(&quot;Click Ok to delete Pay Rate.&quot;)">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                         </button>
+                                        @endpermission
                                     </div>
 
                                 </form>
-                                
+
                             </td>
                         </tr>
-                    @endforeach
+                        @endforeach
                     </tbody>
                 </table>
 
-                </div>
+            </div>
 
 
-<div class="box-footer">
-    {!! $payRates->render() !!}
-</div>
+            <div class="box-footer">
+                {!! $payRates->render() !!}
+            </div>
 
 
 
-</div>
-</section>
+        </div>
+    </section>
 </div>
 @endsection

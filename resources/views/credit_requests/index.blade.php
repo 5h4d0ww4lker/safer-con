@@ -31,16 +31,7 @@
                 @permission('add_credit_request')
                 <a href="{{ route('credit_requests.credit_request.create') }}" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i> Add </a>
                 @endpermission
-                <div class="btn-group pull-right">
-                    <button type="button" class="tip btn btn-info btn-flat pull-right dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        Reports <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="{{ url('#') }}"><i class="icon fa fa-print"></i> Print</a></li>
-                        <li><a href="{{ url('#') }}"><i class="icon fa fa-file"></i> PDF</a></li>
-                        <li><a href="{{ url('#') }}"><i class="icon fa fa-list"></i> Excel</a></li>
-                    </ul>
-                </div>
+               
 
 
                 <!-- Notification Box -->

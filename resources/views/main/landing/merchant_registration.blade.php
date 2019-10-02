@@ -9,7 +9,7 @@
         <div class="solid_banner_inner">
             <h3>Merchant Registartion</h3>
             <ul>
-                <li><a href="#">Home</a></li>
+                <li><a href="#">Home Page</a></li>
                 <li><a href="#">Merchant Registartion</a></li>
             </ul>
         </div>

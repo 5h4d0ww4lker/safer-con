@@ -10,8 +10,8 @@
         <div class="c_banner_inner">
             <h3>Wishlists</h3>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Shop</a></li>
+                <li><a href="#">Home Page</a></li>
+               
                 <li class="current"><a href="#">Wishlist</a></li>
             </ul>
         </div>

@@ -851,7 +851,7 @@ class MainController extends Controller
 		}
 		$user_id = Auth::user()->id;
 		$cart_items = Order::where('user_id', $user_id)->where('status', '!=', 'Pending')->paginate(5);
-		$active = "order_history";
+		$active = "orders_history";
 		return view('main.landing.order_history', compact('cart_items', 'active'));
 	}
 	public  function my_notifications(Request $request)

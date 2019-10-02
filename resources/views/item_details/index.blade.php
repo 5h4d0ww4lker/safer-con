@@ -10,7 +10,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url('/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-           
+
             <li class="active">Item Details</li>
         </ol>
     </section>
@@ -28,9 +28,10 @@
                 </div>
             </div>
             <div class="box-body">
+                @permission('add_credit_request')
                 <a href="{{ route('item_details.item_detail.create') }}" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i> Add </a>
-               
 
+                @endpermission
 
                 <!-- Notification Box -->
             </div>
@@ -52,7 +53,7 @@
             <form action="#" method="get" name="employee_add_form" enctype="multipart/form-data">
                 <p id="date_filter">
                     {{ csrf_field() }}
-                                  <button ></button>
+                    <button></button>
                 </p>
 
             </form>
@@ -64,7 +65,7 @@
                         <tr>
                             <th>#</th>
                             <th>Item</th>
-                            <th >Description</th>
+                            <th>Description</th>
                             <th>In Stock</th>
                             <th>Size</th>
                             <th>Color</th>
@@ -76,7 +77,8 @@
                     <tbody>
                         <?php $sl = 1; ?>
                         @foreach($itemDetails as $itemDetail)
-                        <tr><td>{{$sl++}}</td>
+                        <tr>
+                            <td>{{$sl++}}</td>
                             <td>{{ optional($itemDetail->item)->name }}</td>
                             <td>{{ substr($itemDetail->description,0,30) }}..</td>
                             <td>{{ $itemDetail->stock }}</td>

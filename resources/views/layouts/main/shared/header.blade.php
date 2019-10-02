@@ -38,9 +38,9 @@
                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
                        <ul class="navbar-nav mr-auto">
                            @if($active == 'home')
-                           <li class="nav-item active"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
+                           <li class="nav-item active"><a class="nav-link" href="{{ url('/') }}">Home Page</a></li>
                            @else
-                           <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
+                           <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home Page</a></li>
                            @endif
                            @if($active == 'products')
                            <li class="nav-item active"><a class="nav-link" href="{{ url('/products') }}">Products</a></li>
@@ -53,11 +53,7 @@
                            <li class="nav-item"><a class="nav-link" href="{{ url('/my_orders') }}">My Orders</a></li>
                            @endif
 
-                           @if($active == 'orders_history')
-                           <li class="nav-item active"><a class="nav-link" href="{{ url('/order_history') }}">History</a></li>
-                           @else
-                           <li class="nav-item"><a class="nav-link" href="{{ url('/order_history') }}">History</a></li>
-                           @endif
+
                            @if($active == 'contact')
                            <li class="nav-item active"><a class="nav-link" href="{{ url('/contact') }}">Contact</a></li>
                            @else
@@ -121,7 +117,13 @@
                            @endif
 
                            @endif
-
+                           @if(!empty(auth()->user()->name))
+                           @if($active == 'orders_history')
+                           <li class="user_icon"><a style="color:red;" href="{{ url('/order_history') }}"><i class="fa fa-history"></i></a></li>
+                           @else
+                           <li class="user_icon"><a href="{{ url('/order_history') }}"><i class="fa fa-history"></i></a></li>
+                           @endif
+                           @endif
                            @if(!empty(auth()->user()->name))
                            @if($active == 'profile')
                            <li class="user_icon"><a href="{{ url('/profile') }}" style="color:red;"><i class="icon-user icons"></i></a></li>

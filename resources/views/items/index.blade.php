@@ -28,7 +28,9 @@
                 </div>
             </div>
             <div class="box-body">
+                @permission('add_item')
                 <a href="{{ route('items.item.create') }}" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i> Add </a>
+                @endpermission
                 <div class="btn-group pull-right">
                     <button type="button" class="tip btn btn-info btn-flat pull-right dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         Reports <span class="caret"></span>
@@ -117,11 +119,10 @@
                                 <span class="label label-success">{{ $stock->stock }} &nbsp; Items Remaining</span>
                                 @endif
                                 @if($stock->stock < 5 && $stock->stock > 0 )
-                                <span class="label label-warning">{{ $stock->stock }} &nbsp; Items Remaining</span>
-                                @endif
-                                @if($stock->stock < 1)
-                                <span class="label label-danger">Out of Stock</span>
-                                @endif
+                                    <span class="label label-warning">{{ $stock->stock }} &nbsp; Items Remaining</span>
+                                    @endif
+                                    @if($stock->stock < 1) <span class="label label-danger">Out of Stock</span>
+                                        @endif
 
                             </td>
                             @else
@@ -131,7 +132,7 @@
                                 @if($item->status == 'ACTIVE')
                                 <span class="label label-success">Active</span>
                                 @endif
-                               
+
                                 @if($item->status == 'INACTIVE')
                                 <span class="label label-danger">Inactive</span>
                                 @endif

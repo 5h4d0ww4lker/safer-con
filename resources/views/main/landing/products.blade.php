@@ -10,7 +10,7 @@
         <div class="c_banner_inner">
             <h3>Products</h3>
             <ul>
-                <li><a href="#">Home</a></li>
+                <li><a href="#">Home Page</a></li>
                 <li><a href="#">Products</a></li>
                
             </ul>

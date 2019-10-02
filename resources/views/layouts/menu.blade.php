@@ -11,7 +11,7 @@
     <ul class="sidebar-menu" data-widget="tree">
         <!--<li class="header">&nbsp;</li>-->
         <li><a href="{{ url('/dashboard')}}"><i class="fa fa-dashboard text-green"></i> <span>Dashboard</span></a></li>
-        @if (auth::user()->hasPermissionTo('show_category') || auth::user()->hasPermissionTo('show_sub_category') || auth::user()->hasPermissionTo('show_brand') || auth::user()->hasPermissionTo('show_pay_rate')|| auth::user()->hasPermissionTo('show_home')|| auth::user()->hasPermissionTo('show_contact'))
+        @if (auth::user()->hasPermissionTo('show_category') || auth::user()->hasPermissionTo('show_sub_category') || auth::user()->hasPermissionTo('show_brand') || auth::user()->hasPermissionTo('show_pay_rate')|| auth::user()->hasPermissionTo('show_home')|| auth::user()->hasPermissionTo('show_contact')|| auth::user()->hasPermissionTo('show_bank'))
 
         <li class="treeview">
             <a href="#">
@@ -30,6 +30,9 @@
 
                 @permission('show_brand')
                 <li><a href="{{ route('brands.brand.index') }}"><i class="fa fa-circle-o"></i> Manage Brands</a></li>
+                @endpermission
+                @permission('show_bank')
+                <li><a href="{{ route('banks.bank.index') }}"><i class="fa fa-circle-o"></i> Banks</a></li>
                 @endpermission
                 @permission('show_pay_rate')
                 <li><a href="{{ route('pay_rates.pay_rate.index') }}"><i class="fa fa-circle-o"></i> Manage Pay Rates</a></li>
@@ -69,7 +72,7 @@
             </ul>
         </li>
         @endpermission
-        @if (auth::user()->hasPermissionTo('show_credit') || auth::user()->hasPermissionTo('show_credit_request') || auth::user()->hasPermissionTo('show_bank') || auth::user()->hasPermissionTo('show_transaction'))
+        @if (auth::user()->hasPermissionTo('show_credit') || auth::user()->hasPermissionTo('show_credit_request')|| auth::user()->hasPermissionTo('show_transaction'))
 
         <li class="treeview">
             <a href="#">
@@ -87,9 +90,7 @@
                 @permission('show_credit_request')
                 <li><a href="{{ route('credit_requests.credit_request.index') }}"><i class="fa fa-circle-o"></i> Credit Requests</a></li>
                 @endpermission
-                @permission('show_bank')
-                <li><a href="{{ route('banks.bank.index') }}"><i class="fa fa-circle-o"></i> Banks</a></li>
-                @endpermission
+
                 <li><a href="{{ route('credit_requests.credit_request.my_requests') }}"><i class="fa fa-circle-o"></i>My Requests </a></li>
                 <li><a href="{{ route('my_credit_info') }}"><i class="fa fa-circle-o"></i> My credit Info</a></li>
                 @permission('show_transaction')

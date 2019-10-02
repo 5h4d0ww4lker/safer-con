@@ -9,8 +9,8 @@
                 <div class="solid_banner_inner">
                     <h3>shopping cart</h3>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="shopping-cart.html">Shopping cart</a></li>
+                        <li><a href="#">Home Page</a></li>
+                        <li><a href="#">Shopping cart</a></li>
                     </ul>
                 </div>
             </div>

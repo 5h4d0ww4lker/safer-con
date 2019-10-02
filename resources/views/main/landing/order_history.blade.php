@@ -9,7 +9,7 @@
         <div class="solid_banner_inner">
             <h3>My Orders</h3>
             <ul>
-                <li><a href="#">Home</a></li>
+                <li><a href="#">Home Page</a></li>
                 <li><a href="#">Orders History</a></li>
             </ul>
         </div>

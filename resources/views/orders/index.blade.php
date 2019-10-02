@@ -28,7 +28,9 @@
                 </div>
             </div>
             <div class="box-body">
+                @permission('add_order')
                 <a href="{{ route('orders.order.create') }}" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i> Add </a>
+                @endpermission
                 <div class="btn-group pull-right">
                     <button type="button" class="tip btn btn-info btn-flat pull-right dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         Reports <span class="caret"></span>
@@ -112,21 +114,20 @@
                             <td>{{$order->quantity}}</td>
                             <td>{{ ($order->price) *  ($order->quantity)}}</td>
                             <td>{{ $date}}
-                            @if($order->status == 'Canceled' ||$order->status == 'Confirmed')
+                                @if($order->status == 'Canceled' ||$order->status == 'Confirmed')
 
-<span class="label label-success">Closed</span>
-@endif
+                                <span class="label label-success">Closed</span>
+                                @endif
                                 @if($today->gt($date)&& $order->status == 'Pending')
 
                                 <span class="label label-danger">Delayed by {{$diff}} Days</span>
                                 @endif
-                                @if($date->gt($today)&& $order->status == 'Pending' && $diff < 2)
-                                <span class="label label-warning">In {{$diff}} Days</span>
-                                @endif
+                                @if($date->gt($today)&& $order->status == 'Pending' && $diff < 2) <span class="label label-warning">In {{$diff}} Days</span>
+                                    @endif
 
-                                @if($date->gt($today)&& $order->status == 'Pending' && $diff >= 2)
-                                <span class="label label-info">In {{$diff}} Days</span>
-                                @endif
+                                    @if($date->gt($today)&& $order->status == 'Pending' && $diff >= 2)
+                                    <span class="label label-info">In {{$diff}} Days</span>
+                                    @endif
 
 
 
@@ -156,9 +157,11 @@
                                     {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-xs pull-right" role="group">
+                                        @permission('show_order')
                                         <a href="{{ route('orders.order.show', $order->id ) }}" class="btn btn-info" title="Show Item">
                                             <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
                                         </a>
+                                        @endpermission
                                         @permission('edit_order')
                                         <a href="{{ route('orders.order.edit', $order->id ) }}" class="btn btn-primary" title="Edit Order">
                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>

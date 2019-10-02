@@ -9,7 +9,7 @@
         <div class="solid_banner_inner">
             <h3>LOgin</h3>
             <ul>
-                <li><a href="#">Home</a></li>
+                <li><a href="#">Home Page</a></li>
                 <li><a href="#">Login</a></li>
             </ul>
         </div>
@@ -40,7 +40,7 @@
 
                     <div class="login_title">
                         <h2>log in your account</h2>
-                        <p>Log in to your account to discovery all great features in this template.</p>
+                        <p>Log in to your account.</p>
                     </div>
                     <form class="login_form row" action="{{ route('sign-in') }}" method="post">
                         {{ csrf_field() }}
@@ -66,7 +66,7 @@
                 <div class="col-lg-8">
                     <div class="login_title">
                         <h2>create account</h2>
-                        <p>Follow the steps below to create email account enjoy the great mail.com emailing experience. Vivamus tempus risus vel felis condimentum, non vehicula est iaculis.</p>
+                        <p>Fill the following form to create account.</p>
                     </div>
                     <form class="login_form row" action="{{ url('sign-up') }}" method="post">
 

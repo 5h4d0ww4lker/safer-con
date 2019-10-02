@@ -58,7 +58,7 @@ transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
         <div class="c_banner_inner">
             <h3>Search for Item</h3>
             <ul>
-                <li><a href="#">Home</a></li>
+                <li><a href="#">Home Page</a></li>
                 <li><a href="#">Shop</a></li>
                 <li class="current"><a href="#">Search for Item</a></li>
             </ul>

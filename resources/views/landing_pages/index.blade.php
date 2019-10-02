@@ -28,8 +28,9 @@
                 </div>
             </div>
             <div class="box-body">
+                @permission('add_home')
                 <a href="{{ route('landing_pages.landing_page.create') }}" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i> Add </a>
-              
+                @endpermission
 
 
                 <!-- Notification Box -->
@@ -53,8 +54,8 @@
             <form action="{{ route('landing_pages.landing_page.index') }}" method="get" name="employee_add_form" enctype="multipart/form-data">
                 <p id="date_filter">
                     {{ csrf_field() }}
-                   
-                        <button ></button>
+
+                    <button></button>
                 </p>
 
             </form>
@@ -68,11 +69,11 @@
                         <tr>
                         <tr>
                             <th width="5%">#</th>
-                           
+
                             <th>Title</th>
                             <th>Heading</th>
                             <th>Content</th>
-                          
+
 
                             <th>Created By</th>
                             <th>Created At</th>
@@ -84,12 +85,12 @@
                         <?php $sl = 1 ?>
                         @foreach($landingPages as $landingPage)
                         <tr>
-                           
+
                             <td>{{$sl++}}</td>
                             <td>{{ $landingPage->title }}</td>
                             <td>{{ substr($landingPage->heading,0,15) }}..</td>
                             <td>{{ substr($landingPage->content,0,15) }}..</td>
-                          
+
 
                             <td>{{ optional($landingPage->creator)->name }}</td>
                             <td>{{ $landingPage->created_at }}</td>
@@ -101,16 +102,18 @@
                                     {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-xs pull-right" role="group">
-                                      
-                                       
+                                        @permission('edit_home')
+
                                         <a href="{{ route('landing_pages.landing_page.edit', $landingPage->id ) }}" class="btn btn-primary" title="Edit Landing Page">
                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                         </a>
-                                       
+                                        @endpermission
+                                        @permission('delete_home')
                                         <button type="submit" class="btn btn-danger" title="Delete Landing Page" onclick="return confirm(&quot;Click Ok to delete Landing Page.&quot;)">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                         </button>
-                                      
+                                        @endpermission
+
                                     </div>
 
                                 </form>
