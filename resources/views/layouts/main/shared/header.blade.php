@@ -26,6 +26,24 @@
                </div>
            </div>
        </div>
+       <div class="carousel_top_header row m0">
+           <div class="container">
+               <div class="carousel_top_h_inner">
+                 
+
+               <form class="contact_us_form row" action="{{ route('search_result') }}" method="post" id="contactForm" novalidate="novalidate">
+                {{ csrf_field() }}
+                <div class="form-group col-lg-8 offset-1">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Search Item *" required>
+                </div>
+                
+                <div class="form-group col-lg-1">
+                    <button type="submit" value="submit" class="form-control"><span><i class="fa fa-search"></i></span></button>
+                </div>
+            </form>
+               </div>
+           </div>
+       </div>
        <div class="carousel_menu_inner">
            <div class="container">
                <nav class="navbar navbar-expand-lg navbar-light bg-light">

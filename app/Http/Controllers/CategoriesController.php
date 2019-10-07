@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\PayRate;
+use App\Models\Tax;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories = Category::paginate(1000);
-//die(print_r($categories));
+       // die(print_r($categories));
         return view('categories.index', compact('categories'));
     }
 
@@ -32,11 +33,12 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        $creators = User::pluck('name','id')->all();
-$updaters = User::pluck('name','id')->all();
-$pay_rates = PayRate::pluck('name','id')->all();
-        
-        return view('categories.create', compact('creators','updaters','pay_rates'));
+        $creators = User::pluck('name', 'id')->all();
+        $updaters = User::pluck('name', 'id')->all();
+        $pay_rates = PayRate::pluck('name', 'id')->all();
+        $taxes = Tax::pluck('name', 'id')->all();
+
+        return view('categories.create', compact('creators', 'updaters', 'pay_rates', 'taxes'));
     }
 
     /**
@@ -49,18 +51,18 @@ $pay_rates = PayRate::pluck('name','id')->all();
     public function store(Request $request)
     {
         try {
-            
+
             $data = $this->getData($request);
-           
+
             $data['created_by'] = Auth::user()->id;
             $data['pay_rate'] = request()->pay_rate;
             $default_image = time() . '.' . request()->default_image->getClientOriginalExtension();
-          
+
             request()->default_image->move(public_path('public/default_image'), $default_image);
-           $path = 'public/default_image/';
-            $data['default_image'] = $path.$default_image;
-           
-			Category::create($data);
+            $path = 'public/default_image/';
+            $data['default_image'] = $path . $default_image;
+
+            Category::create($data);
 
             return redirect()->route('categories.category.index')
                 ->with('message', 'Category was successfully added.');
@@ -80,7 +82,7 @@ $pay_rates = PayRate::pluck('name','id')->all();
      */
     public function show($id)
     {
-        $category = Category::with('creator','updater')->findOrFail($id);
+        $category = Category::with('creator', 'updater')->findOrFail($id);
 
         return view('categories.show', compact('category'));
     }
@@ -95,10 +97,11 @@ $pay_rates = PayRate::pluck('name','id')->all();
     public function edit($id)
     {
         $category = Category::findOrFail($id);
-        $creators = User::pluck('name','id')->all();
-$updaters = User::pluck('name','id')->all();
-$pay_rates = PayRate::pluck('name','id')->all();
-        return view('categories.edit', compact('category','creators','updaters','pay_rates'));
+        $creators = User::pluck('name', 'id')->all();
+        $updaters = User::pluck('name', 'id')->all();
+        $pay_rates = PayRate::pluck('name', 'id')->all();
+        $taxes = Tax::pluck('name', 'id')->all();
+        return view('categories.edit', compact('category', 'creators', 'updaters', 'pay_rates', 'taxes'));
     }
 
     /**
@@ -112,15 +115,15 @@ $pay_rates = PayRate::pluck('name','id')->all();
     public function update($id, Request $request)
     {
         try {
-            
+
             $data = $this->getData($request);
             $data['updated_by'] = Auth::user()->id;
             $data['pay_rate'] = request()->pay_rate;
             $default_image = time() . '.' . request()->default_image->getClientOriginalExtension();
-          
+
             request()->default_image->move(public_path('public/default_image'), $default_image);
-           $path = 'public/default_image/';
-            $data['default_image'] = $path.$default_image;
+            $path = 'public/default_image/';
+            $data['default_image'] = $path . $default_image;
             $category = Category::findOrFail($id);
             $category->update($data);
 
@@ -130,7 +133,7 @@ $pay_rates = PayRate::pluck('name','id')->all();
 
             return back()->withInput()
                 ->withErrors(['exception' => 'Unexpected error occurred while trying to process your request.']);
-        }        
+        }
     }
 
     /**
@@ -155,7 +158,7 @@ $pay_rates = PayRate::pluck('name','id')->all();
         }
     }
 
-    
+
     /**
      * Get the request's data from the request.
      *
@@ -165,19 +168,18 @@ $pay_rates = PayRate::pluck('name','id')->all();
     protected function getData(Request $request)
     {
         $rules = [
-                'name' => 'required|string|min:1|max:50',
-               
-                'default_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-          
-           
+            'name' => 'required|string|min:1|max:50',
+
+            'default_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+
         ];
 
-        
+
         $data = $request->validate($rules);
 
 
 
         return $data;
     }
-
 }

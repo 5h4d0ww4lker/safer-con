@@ -37,6 +37,10 @@
                 @permission('show_pay_rate')
                 <li><a href="{{ route('pay_rates.pay_rate.index') }}"><i class="fa fa-circle-o"></i> Manage Pay Rates</a></li>
                 @endpermission
+
+                @permission('show_pay_rate')
+                <li><a href="{{ route('taxes.tax.index') }}"><i class="fa fa-circle-o"></i> Manage Taxes</a></li>
+                @endpermission
                 @permission('show_home')
                 <li><a href="{{ route('landing_pages.landing_page.index') }}"><i class="fa fa-circle-o"></i> Manage Home</a></li>
                 @endpermission
@@ -85,6 +89,9 @@
 
                 @permission('show_credit')
                 <li><a href="{{ route('credits.credit.index') }}"><i class="fa fa-circle-o"></i> Manage Credits</a></li>
+                @endpermission
+                @permission('show_credit')
+                <li><a href="{{ route('credit_transfers.credit_transfer.index') }}"><i class="fa fa-circle-o"></i> Credit Transfer</a></li>
                 @endpermission
 
                 @permission('show_credit_request')

@@ -74,7 +74,7 @@
         </div>
         <div class="fillter_l_p_inner">
             <ul class="fillter_l_p">
-                @foreach($categories as $category)
+                @foreach($categories2 as $category)
                 <li class="active" data-filter="*"><a href="#">{{ $category->name }}</a></li>
                 @endforeach
                 <!-- <li data-filter=".woman"><a href="#">{{ $category->name }}</a></li> -->
@@ -83,8 +83,45 @@
                         <li data-filter=".bags"><a href="#">Bags</a></li> -->
             </ul>
             <div class="row isotope_l_p_inner">
+            <div class="col-lg-3 float-md-left">
+                    <div class="categories_sidebar">
+                        <aside class="l_widgest l_p_categories_widget">
+                            <div class="l_w_title">
+                                <h3>Categories</h3>
+                            </div>
+                            <ul class="navbar-nav">
+                                @foreach($categories as $category)
+                                <?php
+                                $sub_categories = \App\Models\SubCategory::where('category_id', $category->id)->get();
+
+                                ?>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{$category->name}}
+                                        <i class="icon_plus" aria-hidden="true"></i>
+                                        <i class="icon_minus-06" aria-hidden="true"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        @foreach($sub_categories as $sub_category)
+                                        <li class="nav-item"><a class="nav-link" href="{{ url('/byCategory/'.$sub_category->id) }}">{{$sub_category->name}}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+
+                                @endforeach
+
+
+
+                            </ul>
+                        </aside>
+
+
+
+                      
+                    </div>
+                </div>
                 @foreach($items as $item)
-                <div class="col-lg-3 col-md-4 col-sm-6 woman bags">
+                <div class="col-lg-3 col-md-3 col-sm-4 woman bags">
                     <div class="l_product_item">
                         <div class="l_p_img">
                             <img class="img-fluid" src="{{$item->file_1}}" alt="">
@@ -108,7 +145,7 @@
                     </div>
                 </div>
                 @endforeach
-
+              
 
             </div>
             <nav aria-label="Page navigation example" class="pagination_area">

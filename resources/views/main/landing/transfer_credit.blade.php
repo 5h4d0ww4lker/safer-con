@@ -6,51 +6,54 @@
 
 
         <style>
-            #sel {
-                height: 50px;
 
-                border: 1px solid #cccccc;
+#sel{
+height: 50px;
 
-                border-radius: 0px;
+border: 1px solid
+#cccccc;
 
-                -webkit-box-shadow: none;
+border-radius: 0px;
 
-                box-shadow: none;
+-webkit-box-shadow: none;
 
-                outline: none;
+box-shadow: none;
 
-                padding: 0px 22px;
+outline: none;
 
-                box-shadow: none;
+padding: 0px 22px;
 
-                line-height: 50px;
-                display: block;
+box-shadow: none;
 
-                width: 100%;
+line-height: 50px;display: block;
 
-                padding: .375rem .75rem;
+width: 100%;
 
-                font-size: 1rem;
+padding: .375rem .75rem;
 
-                line-height: 1.5;
+font-size: 1rem;
 
-                color:
-                    #495057;
+line-height: 1.5;
 
-                background-color:
-                    #fff;
+color:
+#495057;
 
-                background-image: none;
+background-color:
+#fff;
 
-                background-clip: padding-box;
+background-image: none;
 
-                border: 1px solid #ced4da;
+background-clip: padding-box;
 
-                border-radius: .25rem;
+border: 1px solid #ced4da;
 
-                transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-            }
-        </style>
+border-radius: .25rem;
+
+transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+
+</style>
         <!--================End Categories Banner Area =================-->
 
         <!--================Categories Product Area =================-->
@@ -62,10 +65,7 @@
 
 
                             <div class="categories_product_area">
-                              
-                                <div class="row">
-                                    <div class="col-lg-7 offset-2">
-                                    @if(Session::has('toasts'))
+                                @if(Session::has('toasts'))
                                 @foreach(Session::get('toasts') as $toast)
                                 <div class="alert alert-{{ $toast['level'] }}">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -74,40 +74,43 @@
                                 </div>
                                 @endforeach
                                 @endif
+                                <div class="row">
+                                    <div class="col-lg-6 offset-3">
+
                                         <div class="order_box_price">
-                                            <h2 class="reg_title">Change Password</h2>
+                                            <h2 class="reg_title">Transfer Credit</h2>
                                             <div class="payment_list">
+                                               
+                                                    <form action="{{ route('submit_credit_transfer') }}" method="post" id="order">
+                                                        {{ csrf_field() }}
+                                                        <div class="col-lg-12 form-group">
+                                                            <select id="sel" name="to" required>
+                                                                <option>Select Reciever</option>
+                                                                @foreach($users as $user)
+                                                                <option value="{{$user->id}}">{{$user->name}} &nbsp; {{$user->father_name}} - {{$user->id}}</option>
+                                                                @endforeach
+                                                               
+                                                            </select>
+                                                        </div>
+                                                        
 
-                                                <form action="{{ url('update_password') }}" method="post" id="order">
-                                                    {{ csrf_field() }}
-                                                   
-                                                    <div class="col-lg-12 form-group">
-                                                        <label for="text">Current Password</label>
-                                                        <input class="form-control" type="password" name="current_password" required>
-                                                    </div>
-
-                                                    <div class="col-lg-12 form-group">
-                                                        <label for="text">New Password</label>
-                                                        <input class="form-control" type="password" name="new_password" required>
-                                                    </div>
-                                                    <div class="col-lg-12 form-group">
-                                                        <label for="text">Confirm New Password</label>
-                                                        <input class="form-control" type="password" name="confirmation_password" required>
-                                                    </div>
-                                                    <div class="col-lg-12 form-group">
-                                                        <button type="submit" class="btn btn-primary checkout_btn">Change</button>
-                                                    </div>
-                                                </form>
-                                                <p>Note: If you forgot your current password you can <a href="{{ url('/reset_password') }}" style="color:#d91522; font-weight:501">Reset
-                                              
-
-                                            </a> it here.</p>
-
+                                                        <div class="col-lg-12 form-group">
+                                                            <label for="text">Amount</label>
+                                                            <input class="form-control" type="text" name="amount" required>
+                                                        </div>
+                                                        <div class="col-lg-12 form-group">
+                                                        <button type="submit"  class="btn btn-primary checkout_btn">Complete Transfer</button>
+                                                        </div>
+                                                    </form>
+                                         
                                             </div>
 
                                         </div>
                                     </div>
-                                   
+                                    <div class="col-lg-5 offset-1">
+
+
+</div>
 
 
 
@@ -136,8 +139,8 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{ url('/credit_info') }}">View Credit Information
-                                                <i class="icon_currency" aria-hidden="true"></i>
+                                            <a class="nav-link" href="{{ url('/credit_info') }}" >View Credit Information
+                                                <i class="icon_currency" aria-hidden="true" ></i>
 
                                             </a>
                                         </li>
@@ -148,10 +151,10 @@
                                             </a>
                                         </li>
 
-
+                                        
                                         <li class="nav-item">
                                             <a class="nav-link" href="{{ url('/request_credit') }}" >Request New Credit
-                                                <i class="fa fa-question" aria-hidden="true" style="color:#d91522;"></i>
+                                                <i class="fa fa-question" aria-hidden="true"></i>
 
                                             </a>
                                         </li>
@@ -164,14 +167,14 @@
 
                                         
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{ url('/transfer_credit') }}">Transfer Credit
-                                                <i class="fa fa-cc-amex" aria-hidden="true"></i>
+                                            <a class="nav-link" href="{{ url('/transfer_credit') }}" style="color:#d91522; font-weight:501">Transfer Credit
+                                                <i class="fa fa-cc-amex" aria-hidden="true"  style="color:#d91522;"></i>
 
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{ url('/change_password') }}" style="color:#d91522; font-weight:501">Change Password
-                                                <i class="fa fa-key" aria-hidden="true" style="color:#d91522;"></i>
+                                            <a class="nav-link" href="{{ url('/change_password') }}">Change Password
+                                                <i class="fa fa-key" aria-hidden="true"></i>
 
                                             </a>
                                         </li>

@@ -4,22 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class CreditTransfer extends Model
 {
-
+    
 
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'credit_transfers';
 
     /**
-     * The database primary key value.
-     *
-     * @var string
-     */
+    * The database primary key value.
+    *
+    * @var string
+    */
     protected $primaryKey = 'id';
 
     /**
@@ -28,13 +28,14 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'default_image',
-        'pay_rate',
-        'tax',
-        'created_by',
-        'updated_by'
-    ];
+                  'from',
+                  'to',
+                  'amount',
+                  'transaction_id',
+                  'created_by',
+                  'updated_by',
+                  'deleted_by'
+              ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -42,14 +43,14 @@ class Category extends Model
      * @var array
      */
     protected $dates = [];
-
+    
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
     protected $casts = [];
-
+    
     /**
      * Get the creator for this model.
      *
@@ -57,7 +58,7 @@ class Category extends Model
      */
     public function creator()
     {
-        return $this->belongsTo('App\User', 'created_by');
+        return $this->belongsTo('App\User','created_by');
     }
 
     /**
@@ -67,23 +68,10 @@ class Category extends Model
      */
     public function updater()
     {
-        return $this->belongsTo('App\User', 'updated_by');
-    }
-    /**
-     * Get the updater for this model.
-     *
-     * @return App\Models\PayRate
-     */
-    public function payRate()
-    {
-        return $this->belongsTo('App\Models\PayRate', 'pay_rate');
+        return $this->belongsTo('App\User','updated_by');
     }
 
-    public function taxRate()
-    {
-        return $this->belongsTo('App\Models\Tax', 'tax');
-    }
-
+ 
 
     /**
      * Get created_at in array format
@@ -107,14 +95,6 @@ class Category extends Model
         return \DateTime::createFromFormat($this->getDateFormat(), $value)->format('j/n/Y g:i A');
     }
 
-    /**
-     * Get deleted_at in array format
-     *
-     * @param  string  $value
-     * @return array
-     */
-    public function getDeletedAtAttribute($value)
-    {
-        return \DateTime::createFromFormat($this->getDateFormat(), $value)->format('j/n/Y g:i A');
-    }
+
+
 }

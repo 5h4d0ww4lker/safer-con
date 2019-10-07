@@ -66,6 +66,7 @@
                         <tr><th width="15%">#</th>
                             <th>Name</th>
                             <th>Pay Rate</th>
+                            <th>Tax</th>
                             <th>Created By</th>
                             <th>Created At</th>
 
@@ -79,6 +80,7 @@
                             <td>{{$sl++}}</td>
                             <td>{{ $category->name }}</td>
                             <td>{{ $category->payRate->name }}</td>
+                            <td>{{ $category->taxRate->name }}</td>
                             <td>{{ $category->creator->name }}</td>
                           
                             <td>{{ $category->created_at }}</td>

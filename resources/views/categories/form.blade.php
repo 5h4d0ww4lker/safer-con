@@ -21,6 +21,22 @@
         {!! $errors->first('pay_rate', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+
+<div class="form-group {{ $errors->has('category_id') ? 'has-error' : '' }}">
+    <label for="pay_rate" class="col-md-2 control-label">Tax</label>
+    <div class="col-md-10">
+        <select class="form-control" id="tax" name="tax" required="true">
+        	    <option value="" style="display: none;" {{ old('tax', optional($category)->tax ?: '') == '' ? 'selected' : '' }} disabled selected>Select Tax</option>
+        	@foreach ($taxes as $key => $tax)
+			    <option value="{{ $key }}" {{ old('tax', optional($tax)->id) == $key ? 'selected' : '' }}>
+			    	{{ $tax }}
+			    </option>
+			@endforeach
+        </select>
+        
+        {!! $errors->first('pay_rate', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
 <div class="form-group {{ $errors->has('default_image') ? 'has-error' : '' }}">
     <label for="default_image" class="col-md-2 control-label">Default Image</label>
     <div class="col-md-6">

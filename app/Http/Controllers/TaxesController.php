@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\DeletedBy;
-use App\Models\PayRate;
+use App\Models\Tax;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 
-class PayRatesController extends Controller
+class TaxesController extends Controller
 {
 
     /**
@@ -20,9 +20,9 @@ class PayRatesController extends Controller
      */
     public function index()
     {
-        $payRates = PayRate::with('creator', 'updater')->paginate(1000);
+        $taxes = Tax::with('creator', 'updater')->paginate(1000);
 
-        return view('pay_rates.index', compact('payRates'));
+        return view('taxes.index', compact('taxes'));
     }
 
     /**
@@ -32,11 +32,12 @@ class PayRatesController extends Controller
      */
     public function create()
     {
+        $tax = null;
         $creators = User::pluck('name', 'id')->all();
         $updaters = User::pluck('name', 'id')->all();
 
 
-        return view('pay_rates.create', compact('creators', 'updaters'));
+        return view('taxes.create', compact('creators', 'updaters','tax'));
     }
 
     /**
@@ -53,14 +54,14 @@ class PayRatesController extends Controller
             $data = $this->getData($request);
             $data['created_by'] = Auth::user()->id;
 
-            PayRate::create($data);
+            Tax::create($data);
 
-            return redirect()->route('pay_rates.pay_rate.index')
-                ->with('message', 'Pay Rate was successfully added.');
+            return redirect()->route('taxes.tax.index')
+                ->with('message', 'Tax was successfully added.');
         } catch (Exception $exception) {
 
             return back()->withInput()
-                ->withErrors(['exception' => 'Unexpected error occurred while trying to process your request.']);
+                ->withErrors(['exception' => $exception->getMessage()]);
         }
     }
 
@@ -73,9 +74,9 @@ class PayRatesController extends Controller
      */
     public function show($id)
     {
-        $payRate = PayRate::with('creator', 'updater', 'deletedby')->findOrFail($id);
+        $tax = Tax::with('creator', 'updater', 'deletedby')->findOrFail($id);
 
-        return view('pay_rates.show', compact('payRate'));
+        return view('taxes.show', compact('tax'));
     }
 
     /**
@@ -87,11 +88,11 @@ class PayRatesController extends Controller
      */
     public function edit($id)
     {
-        $payRate = PayRate::findOrFail($id);
+        $tax = Tax::findOrFail($id);
         $creators = User::pluck('name', 'id')->all();
         $updaters = User::pluck('name', 'id')->all();
 
-        return view('pay_rates.edit', compact('payRate', 'creators', 'updaters', 'deletedBies'));
+        return view('taxes.edit', compact('tax', 'creators', 'updaters', 'deletedBies'));
     }
 
     /**
@@ -108,11 +109,11 @@ class PayRatesController extends Controller
 
             $data = $this->getData($request);
             $data['updated_by'] = Auth::user()->id;
-            $payRate = PayRate::findOrFail($id);
-            $payRate->update($data);
+            $tax = Tax::findOrFail($id);
+            $tax->update($data);
 
-            return redirect()->route('pay_rates.pay_rate.index')
-                ->with('message', 'Pay Rate was successfully updated.');
+            return redirect()->route('taxes.tax.index')
+                ->with('message', 'Tax was successfully updated.');
         } catch (Exception $exception) {
 
             return back()->withInput()
@@ -130,11 +131,11 @@ class PayRatesController extends Controller
     public function destroy($id)
     {
         try {
-            $payRate = PayRate::findOrFail($id);
-            $payRate->delete();
+            $tax = Tax::findOrFail($id);
+            $tax->delete();
 
-            return redirect()->route('pay_rates.pay_rate.index')
-                ->with('message', 'Pay Rate was successfully deleted.');
+            return redirect()->route('taxes.tax.index')
+                ->with('message', 'Tax was successfully deleted.');
         } catch (Exception $exception) {
 
             return back()->withInput()
@@ -153,8 +154,7 @@ class PayRatesController extends Controller
     {
         $rules = [
             'name' => 'required|string|min:1|max:100',
-            'percentage_from_merchant' => 'required|numeric|min:-2147483648|max:2147483647',
-            'percentage_from_customer' => 'required|numeric|min:-2147483648|max:2147483647',
+            'rate' => 'required|numeric|min:-2147483648|max:2147483647',
 
         ];
 

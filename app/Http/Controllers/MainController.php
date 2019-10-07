@@ -15,6 +15,7 @@ use App\User;
 use App\Models\Category;
 use App\Models\Credit;
 use App\Models\CreditRequest;
+use App\Models\CreditTransfer;
 use App\Models\SubCategory;
 use App\Models\Item;
 use App\Models\ItemDetail;
@@ -72,13 +73,14 @@ class MainController extends Controller
 
 	public  function index(Request $request)
 	{
-		$categories = Category::all()->take(5);
+		$categories = Category::all();
+		$categories2 = Category::all()->take(5);
 		$secondaries = Category::all()->take(3);
 		$featured_products = Item::where('status', 'ACTIVE')->where('category_id', 16)->get();
-		$items = Item::where('status', 'ACTIVE')->paginate(8);
+		$items = Item::where('status', 'ACTIVE')->paginate(6);
 		$landing_pages = LandingPage::all();
 		$active = "home";
-		return view('main.landing.home', compact('categories', 'items', 'secondaries', 'featured_products', 'landing_pages', 'active'));
+		return view('main.landing.home', compact('categories','categories2', 'items', 'secondaries', 'featured_products', 'landing_pages', 'active'));
 	}
 	public function update_password(Request $request)
 	{
@@ -341,6 +343,7 @@ class MainController extends Controller
 	{
 
 		try {
+			if(request()->category){
 			$category = request()->category;
 			$name = request()->name;
 
@@ -348,6 +351,15 @@ class MainController extends Controller
 			$secondaries = Category::all()->take(3);
 			$featured_products = Item::where('category_id', 16)->get();
 			$items = Item::where('name', 'LIKE', "%$name%")->where('category_id', $category)->paginate(6);
+		}
+		else{
+			$name = request()->name;
+
+			$categories = Category::all();
+			$secondaries = Category::all()->take(3);
+			$featured_products = Item::where('category_id', 16)->get();
+			$items = Item::where('name', 'LIKE', "%$name%")->paginate(6);
+		}
 			$active = "search";
 			//	toast()->success('Item added to cart.');
 			return view('main.landing.products', compact('categories', 'items', 'secondaries', 'featured_products', 'active'));
@@ -920,6 +932,19 @@ class MainController extends Controller
 		$active = "credit_requests";
 		return view('main.landing.credit_requests', compact('user_info', 'credit_requests', 'active'));
 	}
+	public  function my_credit_transfers(Request $request)
+	{
+		if (empty(Auth::user()->id)) {
+			toast()->error('Please login or sign up to continue.', 'Error!');
+
+			return redirect('/account');
+		}
+		$user_id = Auth::user()->id;
+		$user_info = User::find($user_id);
+		$credit_requests = CreditTransfer::where('from', $user_id)->paginate(5);
+		$active = "credit_transfers";
+		return view('main.landing.credit_transfers', compact('user_info', 'credit_requests', 'active'));
+	}
 
 	public  function request_credit(Request $request)
 	{
@@ -933,6 +958,20 @@ class MainController extends Controller
 		$banks = Bank::all();
 		$active = "request_credit";
 		return view('main.landing.request_credit', compact('user_info', 'banks', 'active'));
+	}
+
+	public  function transfer_credit(Request $request)
+	{
+		if (empty(Auth::user()->id)) {
+			toast()->error('Please login or sign up to continue.', 'Error!');
+
+			return redirect('/account');
+		}
+		$user_id = Auth::user()->id;
+		$user_info = User::find($user_id);
+		$users = User::all();
+		$active = "transfer_credit";
+		return view('main.landing.transfer_credit', compact('user_info', 'users', 'active'));
 	}
 
 
@@ -975,6 +1014,71 @@ class MainController extends Controller
 			toast()->error($e->getMessage());
 			return redirect('/request_credit');
 		}
+	}
+
+	public  function submit_credit_transfer(Request $request)
+
+	{
+
+		try {
+
+			if (empty(Auth::user()->id)) {
+				toast()->error('Please login or sign up to continue.', 'Error!');
+
+				return redirect('/account');
+			}
+			$user_id = Auth::user()->id;
+            $from_credit = Credit::where('user_id', $user_id)->first();
+            $to_credit = Credit::where('user_id', $request->to)->first();
+            $from_amount = $from_credit->amount;
+            $to_amount = $to_credit->amount;
+
+            if ($request->amount > $from_amount) {
+				toast()->error('Insufficient balance to transfer the given amount.', 'Error!');
+
+				return redirect('/transfer_credit');
+              
+            }
+
+            $data['created_by'] = Auth::user()->id;
+            $data['from'] = $user_id;
+            $data['to'] = $request->to;
+            $data['amount'] = $request->amount;
+            $transaction_id = rand(1000000, 9000000);
+            $data['transaction_id'] = $transaction_id;
+            CreditTransfer::create($data);
+
+            $from_balance['amount'] =   $from_amount - $request->amount;
+            $from_credit->update($from_balance);
+
+
+            $to_balance['amount'] =   $to_amount + $request->amount;
+            $to_credit->update($to_balance);
+            $sender = User::find($user_id);
+            $reciever = User::find($request->to);
+            $transfer_amount = $request->amount;
+            $to_balance_final =  $to_amount + $request->amount;
+            $from_balance_final =  $from_amount - $request->amount;
+
+            $message = 'Dear ' . $sender->name . ' , you transfered ' . $transfer_amount. ' ETB to ' . $reciever->name . ' ' . $reciever->father_name . ' with transaction id ' . $transaction_id . '. Your current balance is ' . $from_balance_final.' ETB' ;
+            $notification = new Notification();
+            $notification->notify_to = $sender->id;
+            $notification->content = $message;
+            $notification->status = "Pending";
+            $notification->save();
+         
+            $message2 = 'Dear ' . $reciever->name . ' , you recieved a transfer of ' . $transfer_amount . ' ETB from ' . $sender->name . ' ' . $sender->father_name . ' with transaction id ' . $transaction_id . '. Your current balance is ' . $to_balance_final.' ETB';
+            $notification2 = new Notification();
+            $notification2->notify_to = $reciever->id;
+            $notification2->content = $message2;
+            $notification2->status = "Pending";
+            $notification2->save();
+			toast()->success('Credit transfer completed successfully');
+            return redirect('/my_credit_transfers');
+        } catch (Exception $exception) {
+            toast()->error($exception->getMessage());
+			return redirect('/transfer_credit');
+        }
 	}
 
 	public  function my_transactions(Request $request)

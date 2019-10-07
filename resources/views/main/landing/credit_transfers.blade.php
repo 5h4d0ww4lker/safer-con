@@ -7,7 +7,7 @@
 <section class="solid_banner_area">
     <div class="container">
         <div class="solid_banner_inner">
-            <h3>My Credit Requests</h3>
+            <h3>My Credit Transfers</h3>
             <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="#">Credit Requests</a></li>
@@ -48,8 +48,8 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                            <a class="nav-link" href="{{ url('/my_credit_requests') }}"  style="color:#d91522; font-weight:501">My Credit Requests
-                                                <i class="fa fa-question" aria-hidden="true"  style="color:#d91522;"></i>
+                                            <a class="nav-link" href="{{ url('/my_credit_requests') }}"  >My Credit Requests
+                                                <i class="fa fa-question" aria-hidden="true"  ></i>
 
                                             </a>
                                         </li>
@@ -62,8 +62,8 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{ url('/my_credit_transfers') }}">My Credit Transfers
-                                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                                            <a class="nav-link" href="{{ url('/my_credit_transfers') }}" style="color:#d91522; font-weight:501">My Credit Transfers
+                                                <i class="fa fa-bar-chart" aria-hidden="true" style="color:#d91522;"></i>
 
                                             </a>
                                         </li>
@@ -96,7 +96,7 @@
             </div>
             <div class="col-lg-8 offset-1">
                 <div class="cart_product_list">
-                    <h3 class="cart_single_title" style="text-align:center;">Credit Requests</h3>
+                    <h3 class="cart_single_title" style="text-align:center;">Credit Transfers</h3>
                     @if(Session::has('toasts'))
                     @foreach(Session::get('toasts') as $toast)
                     <div class="alert alert-{{ $toast['level'] }}">
@@ -111,11 +111,11 @@
                             <thead>
                                 <tr>
                                     <th scope="col" style="text-align:center;">#</th>
-                                    <th scope="col" style="text-align:center;">Bank</th>
+                                    <th scope="col" style="text-align:center;">To</th>
                                     <th scope="col" style="text-align:center;">Transaction ID</th>
                                     <th scope="col" style="text-align:center;">Amount</th>
                                     <th scope="col" style="text-align:center;">Status</th>
-                                    <th scope="col" style="text-align:center;">Requested On</th>
+                                    <th scope="col" style="text-align:center;">Transfered On</th>
 
 
                                 </tr>
@@ -127,7 +127,7 @@
                                 @foreach($credit_requests as $credit_request)
 
                                 <?php
-                                $bank = \App\Models\Bank::find($credit_request->bank_id);
+                                $receiever = \App\User::find($credit_request->to);
 
                                 ?>
                                 <tr>
@@ -136,7 +136,7 @@
                                         <p>{{$i++}}</p>
                                     </td>
                                     <td>
-                                        <p>{{$bank->name}}</p>
+                                        <p>{{$receiever->name}}&nbsp;{{$receiever->father_name}}</p>
                                     </td>
 
                                     <td>
@@ -149,7 +149,7 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <p>{{$credit_request->status}}</p>
+                                        <p> <p> <span class="label label-success" style="color:white; background-color:green">Completed</span></p></p>
                                         </p>
                                     </td>
                                     <td>

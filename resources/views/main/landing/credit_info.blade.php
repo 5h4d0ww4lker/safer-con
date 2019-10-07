@@ -90,6 +90,20 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
+                                            <a class="nav-link" href="{{ url('/my_credit_transfers') }}">My Credit Transfers
+                                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+
+                                            </a>
+                                        </li>
+
+                                        
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ url('/transfer_credit') }}">Transfer Credit
+                                                <i class="fa fa-cc-amex" aria-hidden="true"></i>
+
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link" href="{{ url('/change_password') }}">Change Password
                                                 <i class="fa fa-key" aria-hidden="true" ></i>
 

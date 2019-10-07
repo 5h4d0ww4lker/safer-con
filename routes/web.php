@@ -48,6 +48,11 @@ Route::get('/order_details/{id}', 'MainController@order_details')->name('order_d
 Route::get('/my_credit_requests', 'MainController@my_credit_requests')->name('my_credit_requests');
 Route::get('/request_credit', 'MainController@request_credit')->name('request_credit');
 Route::post('/submit_credit_request', 'MainController@submit_credit_request')->name('submit_credit_request');
+
+
+Route::get('/my_credit_transfers', 'MainController@my_credit_transfers')->name('my_credit_transfers');
+Route::get('/transfer_credit', 'MainController@transfer_credit')->name('transfer_credit');
+Route::post('/submit_credit_transfer', 'MainController@submit_credit_transfer')->name('submit_credit_transfer');
 Route::get('/log_out', 'MainController@log_out')->name('log_out');
 Route::get('/change_password', 'MainController@change_password');
 Route::post('/update_password', 'MainController@update_password');
@@ -583,4 +588,42 @@ Route::group([
           ->name('contacts.contact.update')->where('id', '[0-9]+');
      Route::delete('/contact/{contact}', 'ContactsController@destroy')
           ->name('contacts.contact.destroy')->where('id', '[0-9]+');
+});
+
+Route::group([
+    'prefix' => 'taxes',
+], function () {
+    Route::get('/', 'TaxesController@index')
+         ->name('taxes.tax.index');
+    Route::get('/create','TaxesController@create')
+         ->name('taxes.tax.create');
+    Route::get('/show/{tax}','TaxesController@show')
+         ->name('taxes.tax.show')->where('id', '[0-9]+');
+    Route::get('/{tax}/edit','TaxesController@edit')
+         ->name('taxes.tax.edit')->where('id', '[0-9]+');
+    Route::post('/', 'TaxesController@store')
+         ->name('taxes.tax.store');
+    Route::put('tax/{tax}', 'TaxesController@update')
+         ->name('taxes.tax.update')->where('id', '[0-9]+');
+    Route::delete('/tax/{tax}','TaxesController@destroy')
+         ->name('taxes.tax.destroy')->where('id', '[0-9]+');
+});
+
+Route::group([
+    'prefix' => 'credit_transfers',
+], function () {
+    Route::get('/', 'CreditTransfersController@index')
+         ->name('credit_transfers.credit_transfer.index')->middleware('checkPermission:show_credit_transfer');
+    Route::get('/create','CreditTransfersController@create')
+         ->name('credit_transfers.credit_transfer.create')->middleware('checkPermission:add_credit_transfer');
+    Route::get('/show/{creditTransfer}','CreditTransfersController@show')
+         ->name('credit_transfers.credit_transfer.show')->where('id', '[0-9]+')->middleware('checkPermission:show_credit_transfer');
+    Route::get('/{creditTransfer}/edit','CreditTransfersController@edit')
+         ->name('credit_transfers.credit_transfer.edit')->where('id', '[0-9]+')->middleware('checkPermission:edit_credit_transfer');
+    Route::post('/', 'CreditTransfersController@store')
+         ->name('credit_transfers.credit_transfer.store')->middleware('checkPermission:add_credit_transfer');
+    Route::put('credit_transfer/{creditTransfer}', 'CreditTransfersController@update')
+         ->name('credit_transfers.credit_transfer.update')->where('id', '[0-9]+')->middleware('checkPermission:edit_credit_transfer');
+    Route::delete('/credit_transfer/{creditTransfer}','CreditTransfersController@destroy')
+         ->name('credit_transfers.credit_transfer.destroy')->where('id', '[0-9]+')->middleware('checkPermission:delete_credit_transfer');
 });
