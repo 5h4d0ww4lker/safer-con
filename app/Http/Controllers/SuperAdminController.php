@@ -57,7 +57,7 @@ class SuperAdminController extends Controller
 	{
 
 		$super_admins = User::query()
-			->where('role', 100)
+			
 			->orderBy('created_at', 'DESC')
 			->get()
 			->toArray();

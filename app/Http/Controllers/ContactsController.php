@@ -17,7 +17,7 @@ class ContactsController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::orderBy('created_at', 'DESC')->paginate(25);
+        $contacts = Contact::paginate(25);
 
         return view('contacts.index', compact('contacts'));
     }
@@ -29,8 +29,8 @@ class ContactsController extends Controller
      */
     public function create()
     {
-
-
+        
+        
         return view('contacts.create');
     }
 
@@ -44,19 +44,17 @@ class ContactsController extends Controller
     public function store(Request $request)
     {
         try {
-
+            
             $data = $this->getData($request);
-
+            
             Contact::create($data);
 
-            toast()->success('Your feedbacl has been recieved successfully. Thanks!');
-
-            return redirect('/contact');
+            return redirect()->route('contacts.contact.index')
+                ->with('success_message', 'Contact was successfully added.');
         } catch (Exception $exception) {
 
-            toast()->error('Sorry, we can not recieve your messeage right now.');
-
-            return redirect('/contact');
+            return back()->withInput()
+                ->withErrors(['unexpected_error' => 'Unexpected error occurred while trying to process your request.']);
         }
     }
 
@@ -84,7 +82,7 @@ class ContactsController extends Controller
     public function edit($id)
     {
         $contact = Contact::findOrFail($id);
-
+        
 
         return view('contacts.edit', compact('contact'));
     }
@@ -100,9 +98,9 @@ class ContactsController extends Controller
     public function update($id, Request $request)
     {
         try {
-
+            
             $data = $this->getData($request);
-
+            
             $contact = Contact::findOrFail($id);
             $contact->update($data);
 
@@ -112,7 +110,7 @@ class ContactsController extends Controller
 
             return back()->withInput()
                 ->withErrors(['unexpected_error' => 'Unexpected error occurred while trying to process your request.']);
-        }
+        }        
     }
 
     /**
@@ -137,7 +135,7 @@ class ContactsController extends Controller
         }
     }
 
-
+    
     /**
      * Get the request's data from the request.
      *
@@ -147,13 +145,13 @@ class ContactsController extends Controller
     protected function getData(Request $request)
     {
         $rules = [
-            'name' => 'required|string|min:1|max:100',
+                'name' => 'required|string|min:1|max:100',
             'email' => 'required|string|min:1|max:100',
             'website' => 'nullable|string|min:0|max:100',
-            'content' => 'required|string|min:1|max:10000',
+            'content' => 'required|string|min:1|max:10000', 
         ];
 
-
+        
         $data = $request->validate($rules);
 
 
@@ -161,4 +159,5 @@ class ContactsController extends Controller
 
         return $data;
     }
+
 }

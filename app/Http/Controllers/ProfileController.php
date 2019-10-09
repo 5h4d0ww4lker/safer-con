@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Address;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller {
 	public function index() {
 		$user = User::find(auth()->user()->id)->toArray();
 		
-		$address = Address::find($user['address']);
+	
 		return view('administrator.profile.user_profile', compact('user','address'));
 	}
 
 	public function update(Request $request) {
 		$user = User::find(auth()->user()->id);
-		$address = Address::find($user->address);
+		
 	
 
 	
@@ -48,14 +47,7 @@ class ProfileController extends Controller {
 
 		$affected_row = $user->save();
 
-		$address->phone_number_1 = $request->get('phone_number_1');
-		$address->region = $request->get('region');
-		$address->city = $request->get('city');
-		$address->sub_city = $request->get('sub_city');
-		$address->location = $request->get('location');
-		$address->building = $request->get('building');
-
-		$r = $address->save();
+	
 
 		if (!empty($affected_row)) {
 			return redirect('/profile/user-profile')->with('message', 'Update successfully.');

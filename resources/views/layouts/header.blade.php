@@ -13,13 +13,13 @@
     <!-- Logo -->
     <a href="{{ url('/dashboard') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>Arganon Ecommerce</b></span>
+        <span class="logo-mini"><b>Safer Construction</b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Arganon Ecommerce</b></span>
+        <span class="logo-lg"><b>Safer Construction</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
-        <span class="second-header"><b>Arganon Ecommerce</b></span>
+        <span class="second-header"><b>Safer Construction</b></span>
         <!-- Sidebar toggle button-->
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">Toggle navigation</span>
@@ -67,18 +67,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="user user-menu">
-                    <a href="{{ route('notifications.notification.index') }}">
-                    <?php
-
-use App\Models\Notification;
-
-$count = Notification::where('notify_to', auth()->user()->id)->where('status', 'Pending')->count();
-?> 
-                        <i class="fa fa-envelope"></i>{{$count}}
-                    </a>
-                    
-                </li>
+      
                 <!-- Control Sidebar Toggle Button -->
             </ul>
         </div>

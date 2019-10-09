@@ -61,7 +61,7 @@ body,html {
             </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-             <img src="{{ asset('public/main/img/index2.png') }}" class="img-circle" alt="User Image" style="margin-left: 25%;">
+             <img src="{{ asset('public/main/img/index2.png') }}" class="img-circle" width="200px" height="200px" alt="User Image" style="margin-left: 15%;">
         <div class="login-logo">
 
          
@@ -103,23 +103,7 @@ body,html {
                     </div>
                     <!-- /.col -->
                 </div>
-                <div class="row">
-                    <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            <label>
-                           <a href="{{ url('/register_merchant') }}"><i class="fa fa-circle-o"></i> Register as Merchant</a>
-                            </label>
-                        </div>
 
-                        <div class="checkbox icheck">
-                            <label>
-                           <a href="{{ url('/admin/reset_password') }}"><i class="fa fa-circle-o"></i> Forgot Password?</a>
-                            </label>
-                        </div>
-                    </div>
-                    <!-- /.col -->
-                   
-                </div>
             </form>
 
                  <!--<a href="{{ route('password.request') }}">I forgot my password</a><br>

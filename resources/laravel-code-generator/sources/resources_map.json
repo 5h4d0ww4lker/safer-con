@@ -123,5 +123,40 @@
         "model-name": "CreditTransfer",
         "resource-file": "credit_transfers.json",
         "table-name": "credit_transfers"
+    },
+    {
+        "model-name": "About",
+        "resource-file": "abouts.json",
+        "table-name": "abouts"
+    },
+    {
+        "model-name": "HomeSlider",
+        "resource-file": "home_sliders.json",
+        "table-name": "home_sliders"
+    },
+    {
+        "model-name": "Slider",
+        "resource-file": "sliders.json",
+        "table-name": "sliders"
+    },
+    {
+        "model-name": "Service",
+        "resource-file": "services.json",
+        "table-name": "services"
+    },
+    {
+        "model-name": "Team",
+        "resource-file": "teams.json",
+        "table-name": "teams"
+    },
+    {
+        "model-name": "Testimonial",
+        "resource-file": "testimonials.json",
+        "table-name": "testimonials"
+    },
+    {
+        "model-name": "Offer",
+        "resource-file": "offers.json",
+        "table-name": "offers"
     }
 ]

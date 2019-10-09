@@ -1,103 +1,95 @@
 @extends('master')
 
-@section('main_content')
-@section('title', 'Contacts')
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>
-            Contacts
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="{{ url('/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li><a>People</a></li>
-            <li class="active">Contacts</li>
-        </ol>
-    </section>
+@section('content')
 
-    <!-- Main content -->
-    <section class="content">
-        <!-- Default box -->
-        <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title">Manage contacts</h3>
+    @if(Session::has('success_message'))
+        <div class="alert alert-success">
+            <span class="glyphicon glyphicon-ok"></span>
+            {!! session('success_message') !!}
 
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+        </div>
+    @endif
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading clearfix">
+
+            <div class="pull-left">
+                <h4 class="mt-5 mb-5">Contacts</h4>
             </div>
-            <div class="box-body">
-                <!-- <a href="{{ route('contacts.contact.create') }}" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i> Add </a> -->
 
-
-
-                <!-- Notification Box -->
+            <div class="btn-group btn-group-sm pull-right" role="group">
+                <a href="{{ route('contacts.contact.create') }}" class="btn btn-success" title="Create New Contact">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </a>
             </div>
-            <hr>
-            <div class="col-md-12">
-                @if (!empty(Session::get('message')))
-                <div class="alert alert-success alert-dismissible" id="notification_box">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <i class="icon fa fa-check"></i> {{ Session::get('message') }}
-                </div>
-                @elseif (!empty(Session::get('exception')))
-                <div class="alert alert-error alert-dismissible" id="notification_box">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <i class="icon fa fa-warning"></i> {{ Session::get('exception') }}
-                </div>
-                @endif
-            </div>
-            <!-- /.Notification Box -->
-            <form action="#" method="get" name="employee_add_form" enctype="multipart/form-data">
-                <p id="date_filter">
-                    {{ csrf_field() }}
-                    <!-- <input type="hidden" name="table" value="employees"> 
-     <input type="hidden" name="request" value="people/employees">  -->
-                    <button></button>
-                </p>
 
-            </form>
+        </div>
+        
+        @if(count($contacts) == 0)
+            <div class="panel-body text-center">
+                <h4>No Contacts Available.</h4>
+            </div>
+        @else
+        <div class="panel-body panel-body-with-table">
             <div class="table-responsive">
 
-                <table id="example1" class="table table-striped ">
+                <table class="table table-striped ">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Website</th>
-                            <th>Content</th>
-                            <th>Created At</th>
-                           
+
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $sl = 1?>
-                        @foreach($contacts as $contact)
+                    @foreach($contacts as $contact)
                         <tr>
-                            <td>{{$sl++}}</td>
                             <td>{{ $contact->name }}</td>
                             <td>{{ $contact->email }}</td>
                             <td>{{ $contact->website }}</td>
-                            <td>{{ $contact->content }}</td>
-                            <td>{{ $contact->created_at }}</td>
-                         
+
+                            <td>
+
+                                <form method="POST" action="{!! route('contacts.contact.destroy', $contact->id) !!}" accept-charset="UTF-8">
+                                <input name="_method" value="DELETE" type="hidden">
+                                {{ csrf_field() }}
+
+                                    <div class="btn-group btn-group-xs pull-right" role="group">
+                                        <a href="{{ route('contacts.contact.show', $contact->id ) }}" class="btn btn-info" title="Show Contact">
+                                            <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
+                                        </a>
+                                        <a href="{{ route('contacts.contact.edit', $contact->id ) }}" class="btn btn-primary" title="Edit Contact">
+                                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                        </a>
+
+                                        <button type="submit" class="btn btn-danger" title="Delete Contact" onclick="return confirm(&quot;Click Ok to delete Contact.&quot;)">
+                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+
+                                </form>
+                                
+                            </td>
                         </tr>
-                        @endforeach
+                    @endforeach
                     </tbody>
                 </table>
 
             </div>
-
-
-            <div class="box-footer">
-                {!! $contacts->render() !!}
-            </div>
-
-
-
         </div>
-    </section>
-</div>
+
+        <div class="panel-footer">
+            {!! $contacts->render() !!}
+        </div>
+        
+        @endif
+    
+    </div>
 @endsection
