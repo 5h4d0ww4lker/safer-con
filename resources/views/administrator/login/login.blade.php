@@ -61,7 +61,7 @@ body,html {
             </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-             <img src="{{ asset('public/main/img/index2.png') }}" class="img-circle" width="200px" height="200px" alt="User Image" style="margin-left: 15%;">
+             <img src="{{ asset('public/index2.png') }}" class="img-circle" width="200px" height="200px" alt="User Image" style="margin-left: 15%;">
         <div class="login-logo">
 
          

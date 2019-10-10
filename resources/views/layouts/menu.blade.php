@@ -53,8 +53,20 @@
         <li><a href="{{ route('teams.team.index') }}"><i class="fa fa-circle-o"></i>Teams</a></li>
 
         @endpermission
+        @permission('show_user')
+        <li><a href="{{ route('testimonials.testimonial.index') }}"><i class="fa fa-circle-o"></i>Testimonials</a></li>
+
+        @endpermission
         @permission('show_role')
-        <li><a href="{{ route('setting.role.index') }}"><i class="fa fa-circle-o"></i>Role</a></li>
+        <li><a href="{{ route('previous_works.previous_work.index') }}"><i class="fa fa-circle-o"></i>Previous Works</a></li>
+        @endpermission
+
+        @permission('show_user')
+        <li><a href="{{ route('galleries.gallery.index') }}"><i class="fa fa-circle-o"></i>Galleries</a></li>
+
+        @endpermission
+        @permission('show_role')
+        <li><a href="{{ route('partners.partner.index') }}"><i class="fa fa-circle-o"></i> Partners</a></li>
         @endpermission
 
 

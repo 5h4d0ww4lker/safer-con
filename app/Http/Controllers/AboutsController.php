@@ -62,7 +62,7 @@ class AboutsController extends Controller
             return redirect()->route('abouts.about.index')
                 ->with('message', 'About was successfully added.');
         } catch (Exception $exception) {
-dd($exception);
+
 
             return back()->withInput()
                 ->withErrors(['exception' => 'Unexpected error occurred while trying to process your request.']);
@@ -109,7 +109,7 @@ dd($exception);
     {
         try {
 
-            $data = $this->getData($request);
+         
             $data['updated_by'] = Auth::user()->id;
 
             $about = About::findOrFail($id);

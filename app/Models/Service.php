@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
 {
-    
+
 
     /**
      * The database table used by the model.
@@ -16,10 +16,10 @@ class Service extends Model
     protected $table = 'services';
 
     /**
-    * The database primary key value.
-    *
-    * @var string
-    */
+     * The database primary key value.
+     *
+     * @var string
+     */
     protected $primaryKey = 'id';
 
     /**
@@ -28,12 +28,14 @@ class Service extends Model
      * @var array
      */
     protected $fillable = [
-                  'description',
-                  'status',
-                  'created_by',
-                  'updated_by',
-                  'deleted_by'
-              ];
+        'label',
+        'description',
+        'status',
+        'image',
+        'created_by',
+        'updated_by',
+        'deleted_by'
+    ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -41,14 +43,14 @@ class Service extends Model
      * @var array
      */
     protected $dates = [];
-    
+
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
     protected $casts = [];
-    
+
     /**
      * Get the creator for this model.
      *
@@ -56,7 +58,7 @@ class Service extends Model
      */
     public function creator()
     {
-        return $this->belongsTo('App\User','created_by');
+        return $this->belongsTo('App\User', 'created_by');
     }
 
     /**
@@ -66,7 +68,7 @@ class Service extends Model
      */
     public function updater()
     {
-        return $this->belongsTo('App\User','updated_by');
+        return $this->belongsTo('App\User', 'updated_by');
     }
 
     /**
@@ -76,7 +78,7 @@ class Service extends Model
      */
     public function deletedBy()
     {
-        return $this->belongsTo('App\Models\DeletedBy','deleted_by');
+        return $this->belongsTo('App\Models\DeletedBy', 'deleted_by');
     }
 
 
@@ -112,5 +114,4 @@ class Service extends Model
     {
         return \DateTime::createFromFormat($this->getDateFormat(), $value)->format('j/n/Y g:i A');
     }
-
 }

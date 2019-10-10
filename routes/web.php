@@ -177,3 +177,60 @@ Route::group([
     Route::delete('/offer/{offer}','OffersController@destroy')
          ->name('offers.offer.destroy')->where('id', '[0-9]+');
 });
+
+Route::group([
+    'prefix' => 'previous_works',
+], function () {
+    Route::get('/', 'PreviousWorksController@index')
+         ->name('previous_works.previous_work.index');
+    Route::get('/create','PreviousWorksController@create')
+         ->name('previous_works.previous_work.create');
+    Route::get('/show/{previousWork}','PreviousWorksController@show')
+         ->name('previous_works.previous_work.show')->where('id', '[0-9]+');
+    Route::get('/{previousWork}/edit','PreviousWorksController@edit')
+         ->name('previous_works.previous_work.edit')->where('id', '[0-9]+');
+    Route::post('/', 'PreviousWorksController@store')
+         ->name('previous_works.previous_work.store');
+    Route::put('previous_work/{previousWork}', 'PreviousWorksController@update')
+         ->name('previous_works.previous_work.update')->where('id', '[0-9]+');
+    Route::delete('/previous_work/{previousWork}','PreviousWorksController@destroy')
+         ->name('previous_works.previous_work.destroy')->where('id', '[0-9]+');
+});
+
+Route::group([
+    'prefix' => 'galleries',
+], function () {
+    Route::get('/', 'GalleriesController@index')
+         ->name('galleries.gallery.index');
+    Route::get('/create','GalleriesController@create')
+         ->name('galleries.gallery.create');
+    Route::get('/show/{gallery}','GalleriesController@show')
+         ->name('galleries.gallery.show')->where('id', '[0-9]+');
+    Route::get('/{gallery}/edit','GalleriesController@edit')
+         ->name('galleries.gallery.edit')->where('id', '[0-9]+');
+    Route::post('/', 'GalleriesController@store')
+         ->name('galleries.gallery.store');
+    Route::put('gallery/{gallery}', 'GalleriesController@update')
+         ->name('galleries.gallery.update')->where('id', '[0-9]+');
+    Route::delete('/gallery/{gallery}','GalleriesController@destroy')
+         ->name('galleries.gallery.destroy')->where('id', '[0-9]+');
+});
+
+Route::group([
+    'prefix' => 'partners',
+], function () {
+    Route::get('/', 'PartnersController@index')
+         ->name('partners.partner.index');
+    Route::get('/create','PartnersController@create')
+         ->name('partners.partner.create');
+    Route::get('/show/{partner}','PartnersController@show')
+         ->name('partners.partner.show')->where('id', '[0-9]+');
+    Route::get('/{partner}/edit','PartnersController@edit')
+         ->name('partners.partner.edit')->where('id', '[0-9]+');
+    Route::post('/', 'PartnersController@store')
+         ->name('partners.partner.store');
+    Route::put('partner/{partner}', 'PartnersController@update')
+         ->name('partners.partner.update')->where('id', '[0-9]+');
+    Route::delete('/partner/{partner}','PartnersController@destroy')
+         ->name('partners.partner.destroy')->where('id', '[0-9]+');
+});

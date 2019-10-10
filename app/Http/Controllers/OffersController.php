@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\DeletedBy;
 use App\Models\Offer;
+use App\Models\DeletedBy;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,11 +32,9 @@ class OffersController extends Controller
      */
     public function create()
     {
-        $creators = User::pluck('name','id')->all();
-$updaters = User::pluck('name','id')->all();
-$deletedBies = DeletedBy::pluck('id','id')->all();
-        
-        return view('offers.create', compact('creators','updaters','deletedBies'));
+        $creators = User::pluck('name', 'id')->all();
+        $updaters = User::pluck('name', 'id')->all();
+        return view('offers.create', compact('creators', 'updaters'));
     }
 
     /**
@@ -49,17 +47,25 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
     public function store(Request $request)
     {
         try {
-            
-            $data = $this->getData($request);
-            $data['created_by'] = Auth::Id();
-            Offer::create($data);
 
+            $data['label'] = $request->label;
+            $data['description'] = $request->description;
+            $data['status'] = $request->status;
+            $data['created_by'] = Auth::user()->id;
+            if (!empty($request->image)) {
+                $image = time().'.'. request()->image->getClientOriginalExtension();
+                request()->image->move(public_path('public/images'), $image);
+                $path = 'public/images/';
+                $data['image'] = $path . $image;
+            }
+            Offer::create($data);
             return redirect()->route('offers.offer.index')
-                ->with('success_message', 'Offer was successfully added.');
+                ->with('message', 'Offer was successfully added.');
         } catch (Exception $exception) {
 
+
             return back()->withInput()
-                ->withErrors(['unexpected_error' => 'Unexpected error occurred while trying to process your request.']);
+                ->withErrors(['exception' => 'Unexpected error occurred while trying to process your request.']);
         }
     }
 
@@ -72,7 +78,7 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
      */
     public function show($id)
     {
-        $offer = Offer::with('creator','updater','deletedby')->findOrFail($id);
+        $offer = Offer::with('creator', 'updater', 'deletedby')->findOrFail($id);
 
         return view('offers.show', compact('offer'));
     }
@@ -87,11 +93,8 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
     public function edit($id)
     {
         $offer = Offer::findOrFail($id);
-        $creators = User::pluck('name','id')->all();
-$updaters = User::pluck('name','id')->all();
-$deletedBies = DeletedBy::pluck('id','id')->all();
 
-        return view('offers.edit', compact('offer','creators','updaters','deletedBies'));
+        return view('offers.edit', compact('offer'));
     }
 
     /**
@@ -105,19 +108,30 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
     public function update($id, Request $request)
     {
         try {
-            
-            $data = $this->getData($request);
-            $data['updated_by'] = Auth::Id();
+
+         
+            $data['updated_by'] = Auth::user()->id;
+
             $offer = Offer::findOrFail($id);
+            $data['status'] = $request->status;
+            $data['label'] = $request->label;
+
+            if (!empty($request->image)) {
+                $image = time() . '.' . request()->image->getClientOriginalExtension();
+
+                request()->image->move(public_path('public/images'), $image);
+                $path = 'public/images/';
+                $data['image'] = $path . $image;
+            }
             $offer->update($data);
 
             return redirect()->route('offers.offer.index')
-                ->with('success_message', 'Offer was successfully updated.');
+                ->with('message', 'Offer was successfully updated.');
         } catch (Exception $exception) {
 
             return back()->withInput()
-                ->withErrors(['unexpected_error' => 'Unexpected error occurred while trying to process your request.']);
-        }        
+                ->withErrors(['exception' => 'Unexpected error occurred while trying to process your request.']);
+        }
     }
 
     /**
@@ -142,7 +156,7 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
         }
     }
 
-    
+
     /**
      * Get the request's data from the request.
      *
@@ -152,16 +166,13 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
     protected function getData(Request $request)
     {
         $rules = [
-                'label' => 'required|string|min:1|max:1000',
+            'label' => 'required|string|min:1|max:100',
             'description' => 'required|string|min:1|max:1000',
-            'image' => 'required|numeric|string|min:1|max:1000',
-            'status' => 'required|string|min:1|max:10',
-            'created_by' => 'required',
-            'updated_by' => 'nullable',
-            'deleted_by' => 'nullable', 
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+
         ];
 
-        
+
         $data = $request->validate($rules);
 
 
@@ -169,5 +180,4 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
 
         return $data;
     }
-
 }

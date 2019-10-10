@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\DeletedBy;
 use App\Models\HomeSlider;
+use App\Models\DeletedBy;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +14,7 @@ class HomeSlidersController extends Controller
 {
 
     /**
-     * Display a listing of the home sliders.
+     * Display a listing of the homeSliders.
      *
      * @return Illuminate\View\View
      */
@@ -26,21 +26,19 @@ class HomeSlidersController extends Controller
     }
 
     /**
-     * Show the form for creating a new home slider.
+     * Show the form for creating a new homeSlider.
      *
      * @return Illuminate\View\View
      */
     public function create()
     {
-        $creators = User::pluck('name','id')->all();
-$updaters = User::pluck('name','id')->all();
-$deletedBies = DeletedBy::pluck('id','id')->all();
-        
-        return view('home_sliders.create', compact('creators','updaters','deletedBies'));
+        $creators = User::pluck('name', 'id')->all();
+        $updaters = User::pluck('name', 'id')->all();
+        return view('home_sliders.create', compact('creators', 'updaters'));
     }
 
     /**
-     * Store a new home slider in the storage.
+     * Store a new homeSlider in the storage.
      *
      * @param Illuminate\Http\Request $request
      *
@@ -49,22 +47,31 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
     public function store(Request $request)
     {
         try {
-            
-            $data = $this->getData($request);
-            $data['created_by'] = Auth::Id();
-            HomeSlider::create($data);
 
+            $data['label'] = $request->label;
+            $data['header'] = $request->header;
+            $data['description'] = $request->description;
+            $data['status'] = $request->status;
+            $data['created_by'] = Auth::user()->id;
+            if (!empty($request->image)) {
+                $image = time().'.'. request()->image->getClientOriginalExtension();
+                request()->image->move(public_path('public/images'), $image);
+                $path = 'public/images/';
+                $data['image'] = $path . $image;
+            }
+            HomeSlider::create($data);
             return redirect()->route('home_sliders.home_slider.index')
-                ->with('success_message', 'Home Slider was successfully added.');
+                ->with('message', 'HomeSlider was successfully added.');
         } catch (Exception $exception) {
 
+dd($exception->getMessage());
             return back()->withInput()
-                ->withErrors(['unexpected_error' => 'Unexpected error occurred while trying to process your request.']);
+                ->withErrors(['exception' => 'Unexpected error occurred while trying to process your request.']);
         }
     }
 
     /**
-     * Display the specified home slider.
+     * Display the specified homeSlider.
      *
      * @param int $id
      *
@@ -72,13 +79,13 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
      */
     public function show($id)
     {
-        $homeSlider = HomeSlider::with('creator','updater','deletedby')->findOrFail($id);
+        $homeSlider = HomeSlider::with('creator', 'updater', 'deletedby')->findOrFail($id);
 
-        return view('home_sliders.show', compact('homeSlider'));
+        return view('homeSliders.show', compact('homeSlider'));
     }
 
     /**
-     * Show the form for editing the specified home slider.
+     * Show the form for editing the specified homeSlider.
      *
      * @param int $id
      *
@@ -87,15 +94,12 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
     public function edit($id)
     {
         $homeSlider = HomeSlider::findOrFail($id);
-        $creators = User::pluck('name','id')->all();
-$updaters = User::pluck('name','id')->all();
-$deletedBies = DeletedBy::pluck('id','id')->all();
 
-        return view('home_sliders.edit', compact('homeSlider','creators','updaters','deletedBies'));
+        return view('home_sliders.edit', compact('homeSlider'));
     }
 
     /**
-     * Update the specified home slider in the storage.
+     * Update the specified homeSlider in the storage.
      *
      * @param int $id
      * @param Illuminate\Http\Request $request
@@ -105,23 +109,35 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
     public function update($id, Request $request)
     {
         try {
-            
-            $data = $this->getData($request);
-            $data['updated_by'] = Auth::Id();
+
+         
+            $data['updated_by'] = Auth::user()->id;
+
             $homeSlider = HomeSlider::findOrFail($id);
+            $data['status'] = $request->status;
+            $data['label'] = $request->label;
+            $data['header'] = $request->header;
+
+            if (!empty($request->image)) {
+                $image = time() . '.' . request()->image->getClientOriginalExtension();
+
+                request()->image->move(public_path('public/images'), $image);
+                $path = 'public/images/';
+                $data['image'] = $path . $image;
+            }
             $homeSlider->update($data);
 
             return redirect()->route('home_sliders.home_slider.index')
-                ->with('success_message', 'Home Slider was successfully updated.');
+                ->with('message', 'HomeSlider was successfully updated.');
         } catch (Exception $exception) {
 
             return back()->withInput()
-                ->withErrors(['unexpected_error' => 'Unexpected error occurred while trying to process your request.']);
-        }        
+                ->withErrors(['exception' => 'Unexpected error occurred while trying to process your request.']);
+        }
     }
 
     /**
-     * Remove the specified home slider from the storage.
+     * Remove the specified homeSlider from the storage.
      *
      * @param int $id
      *
@@ -133,8 +149,8 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
             $homeSlider = HomeSlider::findOrFail($id);
             $homeSlider->delete();
 
-            return redirect()->route('home_sliders.home_slider.index')
-                ->with('success_message', 'Home Slider was successfully deleted.');
+            return redirect()->route('homeSliders.homeSlider.index')
+                ->with('success_message', 'HomeSlider was successfully deleted.');
         } catch (Exception $exception) {
 
             return back()->withInput()
@@ -142,7 +158,7 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
         }
     }
 
-    
+
     /**
      * Get the request's data from the request.
      *
@@ -152,17 +168,13 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
     protected function getData(Request $request)
     {
         $rules = [
-                'label' => 'required|numeric|min:-2147483648|max:2147483647',
-            'header' => 'required|string|min:1|max:100',
+            'label' => 'required|string|min:1|max:100',
             'description' => 'required|string|min:1|max:1000',
-            'file_path' => 'required|string|min:1|max:255',
-            'status' => 'required|string|min:1|max:10',
-            'created_by' => 'required',
-            'updated_by' => 'nullable',
-            'deleted_by' => 'nullable', 
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+
         ];
 
-        
+
         $data = $request->validate($rules);
 
 
@@ -170,5 +182,4 @@ $deletedBies = DeletedBy::pluck('id','id')->all();
 
         return $data;
     }
-
 }

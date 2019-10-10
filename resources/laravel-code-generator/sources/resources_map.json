@@ -158,5 +158,20 @@
         "model-name": "Offer",
         "resource-file": "offers.json",
         "table-name": "offers"
+    },
+    {
+        "model-name": "PreviousWork",
+        "resource-file": "previous_works.json",
+        "table-name": "previous_works"
+    },
+    {
+        "model-name": "Gallery",
+        "resource-file": "galleries.json",
+        "table-name": "galleries"
+    },
+    {
+        "model-name": "Partner",
+        "resource-file": "partners.json",
+        "table-name": "partners"
     }
 ]

@@ -1,38 +1,38 @@
 @extends('master')
 
-@section('content')
+@section('main_content')
+@section('title', 'Testimonials')
 
-    <div class="panel panel-default">
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Testimonial
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('#') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{{ url('#') }}">Testimonial</a></li>
+            <li class="active">Add Testimonial</li>
+        </ol>
+    </section>
 
-        <div class="panel-heading clearfix">
-            
-            <span class="pull-left">
-                <h4 class="mt-5 mb-5">Create New Testimonial</h4>
-            </span>
+    <!-- Main content -->
+    <section class="content col-md-8">
 
-            <div class="btn-group btn-group-sm pull-right" role="group">
-                <a href="{{ route('testimonials.testimonial.index') }}" class="btn btn-primary" title="Show All Testimonial">
-                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                </a>
+        <!-- SELECT2 EXAMPLE -->
+        <div class="box box-default col-md-offset-2  col-md-6">
+            <div class="box-header with-border">
+                <h3 class="box-title">Add Testimonial</h3>
+
+
             </div>
+            <!-- /.box-header -->
 
-        </div>
-
-        <div class="panel-body">
-        
-            @if ($errors->any())
-                <ul class="alert alert-danger">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
-
-            <form method="POST" action="{{ route('testimonials.testimonial.store') }}" accept-charset="UTF-8" id="create_testimonial_form" name="create_testimonial_form" class="form-horizontal">
-            {{ csrf_field() }}
-            @include ('testimonials.form', [
-                                        'testimonial' => null,
-                                      ])
+            <form method="POST" action="{{ route('testimonials.testimonial.store') }}" accept-charset="UTF-8" id="create_testimonial_form" name="create_testimonial_form" class="form-horizontal" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                @include ('testimonials.form', [
+                'testimonial' => null,
+                ])
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
@@ -41,10 +41,10 @@
                 </div>
 
             </form>
-
         </div>
-    </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
 
 @endsection
-
-

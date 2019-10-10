@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
+use App\Models\DeletedBy;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 
 class ContactsController extends Controller
@@ -29,9 +32,9 @@ class ContactsController extends Controller
      */
     public function create()
     {
-        
-        
-        return view('contacts.create');
+        $creators = User::pluck('name', 'id')->all();
+        $updaters = User::pluck('name', 'id')->all();
+        return view('contacts.create', compact('creators', 'updaters'));
     }
 
     /**
@@ -44,17 +47,22 @@ class ContactsController extends Controller
     public function store(Request $request)
     {
         try {
-            
-            $data = $this->getData($request);
-            
-            Contact::create($data);
 
+            $data['email'] = $request->email;
+            $data['phone'] = $request->phone;
+            $data['fax'] = $request->fax;
+            $data['description'] = $request->description;
+            $data['created_by'] = Auth::user()->id;
+          
+          
+            Contact::create($data);
             return redirect()->route('contacts.contact.index')
-                ->with('success_message', 'Contact was successfully added.');
+                ->with('message', 'Contact was successfully added.');
         } catch (Exception $exception) {
+dd($exception->getMessage());
 
             return back()->withInput()
-                ->withErrors(['unexpected_error' => 'Unexpected error occurred while trying to process your request.']);
+                ->withErrors(['exception' => 'Unexpected error occurred while trying to process your request.']);
         }
     }
 
@@ -67,7 +75,7 @@ class ContactsController extends Controller
      */
     public function show($id)
     {
-        $contact = Contact::findOrFail($id);
+        $contact = Contact::with('creator', 'updater', 'deletedby')->findOrFail($id);
 
         return view('contacts.show', compact('contact'));
     }
@@ -82,7 +90,6 @@ class ContactsController extends Controller
     public function edit($id)
     {
         $contact = Contact::findOrFail($id);
-        
 
         return view('contacts.edit', compact('contact'));
     }
@@ -98,19 +105,28 @@ class ContactsController extends Controller
     public function update($id, Request $request)
     {
         try {
-            
-            $data = $this->getData($request);
-            
+
+         
+            $data['updated_by'] = Auth::user()->id;
+
             $contact = Contact::findOrFail($id);
+            $data['email'] = $request->email;
+            $data['phone'] = $request->phone;
+            $data['fax'] = $request->fax;
+            $data['description'] = $request->description;
+           
+          
+
+           
             $contact->update($data);
 
             return redirect()->route('contacts.contact.index')
-                ->with('success_message', 'Contact was successfully updated.');
+                ->with('message', 'Contact was successfully updated.');
         } catch (Exception $exception) {
 
             return back()->withInput()
-                ->withErrors(['unexpected_error' => 'Unexpected error occurred while trying to process your request.']);
-        }        
+                ->withErrors(['exception' => 'Unexpected error occurred while trying to process your request.']);
+        }
     }
 
     /**
@@ -135,7 +151,7 @@ class ContactsController extends Controller
         }
     }
 
-    
+
     /**
      * Get the request's data from the request.
      *
@@ -145,13 +161,13 @@ class ContactsController extends Controller
     protected function getData(Request $request)
     {
         $rules = [
-                'name' => 'required|string|min:1|max:100',
-            'email' => 'required|string|min:1|max:100',
-            'website' => 'nullable|string|min:0|max:100',
-            'content' => 'required|string|min:1|max:10000', 
+            'label' => 'required|string|min:1|max:100',
+            'description' => 'required|string|min:1|max:1000',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+
         ];
 
-        
+
         $data = $request->validate($rules);
 
 
@@ -159,5 +175,4 @@ class ContactsController extends Controller
 
         return $data;
     }
-
 }

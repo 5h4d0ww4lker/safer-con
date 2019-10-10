@@ -28,10 +28,10 @@
                 </div>
             </div>
             <div class="box-body">
-               
+
                 <a href="{{ route('abouts.about.create') }}" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i> Add </a>
 
-               
+
                 <!-- Notification Box -->
             </div>
             <hr>
@@ -64,15 +64,30 @@
                 <table class="table table-striped ">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Label</th>
+                            <th>Description</th>
+                            <th>Status</th>
 
-                            <th></th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $i = 1; ?>
                         @foreach($abouts as $about)
                         <tr>
+                            <td>{{$i++}}</td>
                             <td>{{ $about->label }}</td>
+                            <td>{{ $about->description }}</td>
+
+                            <td>@if($about->status == 'Active')
+                                <span class="label label-success">Active</span>
+                                @else
+                                <span class="label label-danger">Inactive</span>
+                                @endif
+
+
+                            </td>
 
                             <td>
 

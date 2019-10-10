@@ -1,43 +1,38 @@
 @extends('master')
 
-@section('content')
+@section('main_content')
+@section('title', 'Abouts')
 
-    <div class="panel panel-default">
-  
-        <div class="panel-heading clearfix">
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            About
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('#') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{{ url('#') }}">About</a></li>
+            <li class="active">Edit About</li>
+        </ol>
+    </section>
 
-            <div class="pull-left">
-                <h4 class="mt-5 mb-5">{{ !empty($about->label) ? $about->label : 'About' }}</h4>
+    <!-- Main content -->
+    <section class="content col-md-8">
+
+        <!-- SELECT2 EXAMPLE -->
+        <div class="box box-default col-md-offset-2  col-md-6">
+            <div class="box-header with-border">
+                <h3 class="box-title">Edit About</h3>
+
+
             </div>
-            <div class="btn-group btn-group-sm pull-right" role="group">
-
-                <a href="{{ route('abouts.about.index') }}" class="btn btn-primary" title="Show All About">
-                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                </a>
-
-                <a href="{{ route('abouts.about.create') }}" class="btn btn-success" title="Create New About">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                </a>
-
-            </div>
-        </div>
-
-        <div class="panel-body">
-
-            @if ($errors->any())
-                <ul class="alert alert-danger">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
-
-            <form method="POST" action="{{ route('abouts.about.update', $about->id) }}" id="edit_about_form" name="edit_about_form" accept-charset="UTF-8" class="form-horizontal">
-            {{ csrf_field() }}
-            <input name="_method" type="hidden" value="PUT">
-            @include ('abouts.form', [
-                                        'about' => $about,
-                                      ])
+            <!-- /.box-header -->
+            <form method="POST" action="{{ route('abouts.about.update', $about->id) }}" id="edit_about_form" name="edit_about_form" accept-charset="UTF-8" enctype="multipart/form-data" class="form-horizontal">
+                {{ csrf_field() }}
+                <input name="_method" type="hidden" value="PUT">
+                @include ('abouts.form', [
+                'about' => $about,
+                ])
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
@@ -47,6 +42,9 @@
             </form>
 
         </div>
-    </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
 
 @endsection

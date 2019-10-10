@@ -1,37 +1,38 @@
 @extends('master')
-@section('content')
 
-    <div class="panel panel-default">
+@section('main_content')
+@section('title', 'Contacts')
 
-        <div class="panel-heading clearfix">
-            
-            <span class="pull-left">
-                <h4 class="mt-5 mb-5">Create New Contact</h4>
-            </span>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Contact
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('#') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{{ url('#') }}">Contact</a></li>
+            <li class="active">Add Contact</li>
+        </ol>
+    </section>
 
-            <div class="btn-group btn-group-sm pull-right" role="group">
-                <a href="{{ route('contacts.contact.index') }}" class="btn btn-primary" title="Show All Contact">
-                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                </a>
+    <!-- Main content -->
+    <section class="content col-md-8">
+
+        <!-- SELECT2 EXAMPLE -->
+        <div class="box box-default col-md-offset-2  col-md-6">
+            <div class="box-header with-border">
+                <h3 class="box-title">Add Contact</h3>
+
+
             </div>
+            <!-- /.box-header -->
 
-        </div>
-
-        <div class="panel-body">
-        
-            @if ($errors->any())
-                <ul class="alert alert-danger">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
-
-            <form method="POST" action="{{ route('contacts.contact.store') }}" accept-charset="UTF-8" id="create_contact_form" name="create_contact_form" class="form-horizontal">
-            {{ csrf_field() }}
-            @include ('contacts.form', [
-                                        'contact' => null,
-                                      ])
+            <form method="POST" action="{{ route('contacts.contact.store') }}" accept-charset="UTF-8" id="create_contact_form" name="create_contact_form" class="form-horizontal" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                @include ('contacts.form', [
+                'contact' => null,
+                ])
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
@@ -40,10 +41,10 @@
                 </div>
 
             </form>
-
         </div>
-    </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
 
 @endsection
-
-

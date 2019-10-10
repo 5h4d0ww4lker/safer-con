@@ -1,59 +1,99 @@
 @extends('master')
 
-@section('content')
+@section('main_content')
+@section('title', 'Services')
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Services
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('/dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 
-    @if(Session::has('success_message'))
-        <div class="alert alert-success">
-            <span class="glyphicon glyphicon-ok"></span>
-            {!! session('success_message') !!}
+            <li class="active">Services</li>
+        </ol>
+    </section>
 
-            <button type="button" class="close" data-dismiss="alert" aria-label="close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Manage services</h3>
 
-        </div>
-    @endif
-
-    <div class="panel panel-default">
-
-        <div class="panel-heading clearfix">
-
-            <div class="pull-left">
-                <h4 class="mt-5 mb-5">Services</h4>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                </div>
             </div>
+            <div class="box-body">
 
-            <div class="btn-group btn-group-sm pull-right" role="group">
-                <a href="{{ route('services.service.create') }}" class="btn btn-success" title="Create New Service">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                </a>
-            </div>
+                <a href="{{ route('services.service.create') }}" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i> Add </a>
 
-        </div>
-        
-        @if(count($services) == 0)
-            <div class="panel-body text-center">
-                <h4>No Services Available.</h4>
+
+                <!-- Notification Box -->
             </div>
-        @else
-        <div class="panel-body panel-body-with-table">
+            <hr>
+            <div class="col-md-12">
+                @if (!empty(Session::get('message')))
+                <div class="alert alert-success alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-check"></i> {{ Session::get('message') }}
+                </div>
+                @elseif (!empty(Session::get('exception')))
+                <div class="alert alert-error alert-dismissible" id="notification_box">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="icon fa fa-warning"></i> {{ Session::get('exception') }}
+                </div>
+                @endif
+            </div>
+            <!-- /.Notification Box -->
+            <form action="#" method="get" name="employee_add_form" enctype="multipart/form-data">
+                <p id="date_filter">
+                    {{ csrf_field() }}
+
+                    <button></button>
+                </p>
+
+            </form>
             <div class="table-responsive">
+
+
 
                 <table class="table table-striped ">
                     <thead>
                         <tr>
+                            <th>#</th>
+                            <th>Label</th>
+                            <th>Description</th>
+                            <th>Status</th>
 
-                            <th></th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($services as $service)
+                        <?php $i = 1; ?>
+                        @foreach($services as $service)
                         <tr>
+                            <td>{{$i++}}</td>
+                            <td>{{ $service->label }}</td>
+                            <td>{{ $service->description }}</td>
+
+                            <td>@if($service->status == 'Active')
+                                <span class="label label-success">Active</span>
+                                @else
+                                <span class="label label-danger">Inactive</span>
+                                @endif
+
+
+                            </td>
 
                             <td>
 
                                 <form method="POST" action="{!! route('services.service.destroy', $service->id) !!}" accept-charset="UTF-8">
-                                <input name="_method" value="DELETE" type="hidden">
-                                {{ csrf_field() }}
+                                    <input name="_method" value="DELETE" type="hidden">
+                                    {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-xs pull-right" role="group">
                                         <a href="{{ route('services.service.show', $service->id ) }}" class="btn btn-info" title="Show Service">
@@ -69,21 +109,23 @@
                                     </div>
 
                                 </form>
-                                
+
                             </td>
                         </tr>
-                    @endforeach
+                        @endforeach
                     </tbody>
                 </table>
 
             </div>
-        </div>
 
-        <div class="panel-footer">
-            {!! $services->render() !!}
+
+            <div class="box-footer">
+                {!! $services->render() !!}
+            </div>
+
+
+
         </div>
-        
-        @endif
-    
-    </div>
+    </section>
+</div>
 @endsection

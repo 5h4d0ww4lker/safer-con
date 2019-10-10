@@ -31,7 +31,7 @@ class HomeSlider extends Model
                   'label',
                   'header',
                   'description',
-                  'file_path',
+                  'image',
                   'status',
                   'created_by',
                   'updated_by',

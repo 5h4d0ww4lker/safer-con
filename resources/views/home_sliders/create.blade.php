@@ -1,38 +1,38 @@
 @extends('master')
 
-@section('content')
+@section('main_content')
+@section('title', 'Home Sliders')
 
-    <div class="panel panel-default">
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Home Slider
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ url('#') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{{ url('#') }}">Home Slider</a></li>
+            <li class="active">Add Home Slider</li>
+        </ol>
+    </section>
 
-        <div class="panel-heading clearfix">
-            
-            <span class="pull-left">
-                <h4 class="mt-5 mb-5">Create New Home Slider</h4>
-            </span>
+    <!-- Main content -->
+    <section class="content col-md-8">
 
-            <div class="btn-group btn-group-sm pull-right" role="group">
-                <a href="{{ route('home_sliders.home_slider.index') }}" class="btn btn-primary" title="Show All Home Slider">
-                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                </a>
+        <!-- SELECT2 EXAMPLE -->
+        <div class="box box-default col-md-offset-2  col-md-6">
+            <div class="box-header with-border">
+                <h3 class="box-title">Add Home Slider</h3>
+
+
             </div>
+            <!-- /.box-header -->
 
-        </div>
-
-        <div class="panel-body">
-        
-            @if ($errors->any())
-                <ul class="alert alert-danger">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
-
-            <form method="POST" action="{{ route('home_sliders.home_slider.store') }}" accept-charset="UTF-8" id="create_home_slider_form" name="create_home_slider_form" class="form-horizontal">
-            {{ csrf_field() }}
-            @include ('home_sliders.form', [
-                                        'homeSlider' => null,
-                                      ])
+            <form method="POST" action="{{ route('home_sliders.home_slider.store') }}" accept-charset="UTF-8" id="create_homeSlider_form" name="create_homeSlider_form" class="form-horizontal" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                @include ('home_sliders.form', [
+                'homeSlider' => null,
+                ])
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
@@ -41,10 +41,10 @@
                 </div>
 
             </form>
-
         </div>
-    </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
 
 @endsection
-
-

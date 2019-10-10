@@ -34,9 +34,14 @@ class Contact extends Model
      */
     protected $fillable = [
                   'name',
+                  'phone',
+                  'fax',
                   'email',
-                  'website',
-                  'content'
+                  'location',
+                  'description',
+                  'created_by',
+                  'updated_by',
+                  'deleted_by'
               ];
 
     /**
