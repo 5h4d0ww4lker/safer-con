@@ -20,7 +20,7 @@ class HomeSlidersController extends Controller
      */
     public function index()
     {
-        $homeSliders = HomeSlider::paginate(25);
+        $homeSliders = HomeSlider::paginate(1000);
 
         return view('home_sliders.index', compact('homeSliders'));
     }

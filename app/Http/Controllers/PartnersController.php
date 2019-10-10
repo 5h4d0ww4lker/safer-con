@@ -20,7 +20,7 @@ class PartnersController extends Controller
      */
     public function index()
     {
-        $partners = Partner::paginate(25);
+        $partners = Partner::paginate(1000);
 
         return view('partners.index', compact('partners'));
     }

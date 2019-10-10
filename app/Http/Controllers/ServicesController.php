@@ -20,7 +20,7 @@ class ServicesController extends Controller
      */
     public function index()
     {
-        $services = Service::paginate(25);
+        $services = Service::paginate(1000);
 
         return view('services.index', compact('services'));
     }

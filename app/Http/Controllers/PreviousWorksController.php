@@ -20,7 +20,7 @@ class PreviousWorksController extends Controller
      */
     public function index()
     {
-        $previousWorks = PreviousWork::paginate(25);
+        $previousWorks = PreviousWork::paginate(1000);
 
         return view('previous_works.index', compact('previousWorks'));
     }

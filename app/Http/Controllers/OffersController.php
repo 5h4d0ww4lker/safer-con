@@ -20,7 +20,7 @@ class OffersController extends Controller
      */
     public function index()
     {
-        $offers = Offer::paginate(25);
+        $offers = Offer::paginate(1000);
 
         return view('offers.index', compact('offers'));
     }

@@ -20,7 +20,7 @@ class AboutsController extends Controller
      */
     public function index()
     {
-        $abouts = About::paginate(25);
+        $abouts = About::paginate(1000);
 
         return view('abouts.index', compact('abouts'));
     }

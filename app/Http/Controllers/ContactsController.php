@@ -20,7 +20,7 @@ class ContactsController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::paginate(25);
+        $contacts = Contact::paginate(1000);
 
         return view('contacts.index', compact('contacts'));
     }

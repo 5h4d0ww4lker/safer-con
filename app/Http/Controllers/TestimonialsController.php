@@ -20,7 +20,7 @@ class TestimonialsController extends Controller
      */
     public function index()
     {
-        $testimonials = Testimonial::paginate(25);
+        $testimonials = Testimonial::paginate(1000);
 
         return view('testimonials.index', compact('testimonials'));
     }
