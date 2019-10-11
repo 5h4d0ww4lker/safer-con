@@ -11,7 +11,7 @@
                  <div class="container">
                      <h5 class=" wow fadeInUp animated">{{$homeSlider->label}}</h5>
                      <h3 class=" wow fadeInUp animated" data-wow-delay="0.5s">{{$homeSlider->header}}</h3>
-                     <p class=" wow fadeInUp animated" data-wow-delay="0.8s">{{$homeSlider->description}}</p>
+                     <p class=" wow fadeInUp animated" data-wow-delay="0.8s">{{strip_tags($homeSlider->description)}}</p>
                    
                  </div>
              </div>

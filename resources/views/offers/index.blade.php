@@ -75,10 +75,11 @@
                     <tbody>
                         <?php $i = 1; ?>
                         @foreach($offers as $offer)
+                        <?php $test = substr($offer->description,0,100); ?>
                         <tr>
                             <td>{{$i++}}</td>
                             <td>{{ $offer->label }}</td>
-                            <td>{{ $offer->description }}</td>
+                            <td>{{ strip_tags($test) }}...</td>
 
                             <td>@if($offer->status == 'Active')
                                 <span class="label label-success">Active</span>

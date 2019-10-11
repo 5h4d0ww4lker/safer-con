@@ -68,7 +68,7 @@
                         <div class="team_content">
                            
                             <a href="#" class="name">{{$team->label}}</a>
-                            <h6>{{$team->designation}}</h6>
+                            <h6>{{strip_tags($team->description)}}</h6>
                         </div>
                    </div>
                 </div>

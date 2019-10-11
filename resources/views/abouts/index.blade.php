@@ -75,10 +75,11 @@
                     <tbody>
                         <?php $i = 1; ?>
                         @foreach($abouts as $about)
+                        <?php $test = substr($about->description,0,100); ?>
                         <tr>
                             <td>{{$i++}}</td>
                             <td>{{ $about->label }}</td>
-                            <td>{{ substr($about->description,0,100) }}..</td>
+                            <td>{{ strip_tags($test) }}..</td>
 
                             <td>@if($about->status == 'Active')
                                 <span class="label label-success">Active</span>

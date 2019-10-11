@@ -77,11 +77,12 @@
                     <tbody>
                         <?php $i = 1; ?>
                         @foreach($homeSliders as $homeSlider)
+                        <?php $test = substr($homeSlider->description,0,100); ?>
                         <tr>
                             <td>{{$i++}}</td>
                             <td>{{ $homeSlider->label }}</td>
-                            <td>{{ substr ($homeSlider->header,0,100) }}..</td>
-                            <td>{{ $homeSlider->description }}</td>
+                            <td>{{ strip_tags($test) }}..</td>
+                            <td>{{ strip_tags($homeSlider->description) }}</td>
 
                             <td>@if($homeSlider->status == 'Active')
                                 <span class="label label-success">Active</span>

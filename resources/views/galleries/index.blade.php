@@ -75,10 +75,11 @@
                     <tbody>
                         <?php $i = 1; ?>
                         @foreach($galleries as $gallery)
+                        <?php $test = substr($gallery->description,0,100); ?>
                         <tr>
                             <td>{{$i++}}</td>
                             <td>{{ $gallery->label }}</td>
-                            <td>{{ $gallery->description }}</td>
+                            <td>{{ strip_tags($test) }..}</td>
 
                             <td>@if($gallery->status == 'Active')
                                 <span class="label label-success">Active</span>

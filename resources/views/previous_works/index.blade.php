@@ -75,10 +75,11 @@
                     <tbody>
                         <?php $i = 1; ?>
                         @foreach($previousWorks as $previousWork)
+                        <?php $test = substr($previousWork->description,0,100); ?>
                         <tr>
                             <td>{{$i++}}</td>
                             <td>{{ $previousWork->label }}</td>
-                            <td>{{ substr($previousWork->description,0,100) }}..</td>
+                            <td>{{ strip_tags($test) }}..</td>
 
                             <td>@if($previousWork->status == 'Active')
                                 <span class="label label-success">Active</span>
