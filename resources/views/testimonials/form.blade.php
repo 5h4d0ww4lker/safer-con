@@ -6,6 +6,14 @@
     </div>
 </div>
 
+<div class="form-group {{ $errors->has('label') ? 'has-error' : '' }}">
+    <label for="label" class="col-md-2 control-label">Designation</label>
+    <div class="col-md-10">
+        <input class="form-control" name="designation" type="text" id="label" value="{{ old('label', optional($testimonial)->designation) }}" minlength="1" maxlength="100" required="true" placeholder="Enter designation...">
+        {!! $errors->first('label', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+
 
 
 <div class="form-group {{ $errors->has('image') ? 'has-error' : '' }}">

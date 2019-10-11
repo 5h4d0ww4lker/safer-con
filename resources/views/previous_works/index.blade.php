@@ -78,7 +78,7 @@
                         <tr>
                             <td>{{$i++}}</td>
                             <td>{{ $previousWork->label }}</td>
-                            <td>{{ $previousWork->description }}</td>
+                            <td>{{ substr($previousWork->description,0,100) }}..</td>
 
                             <td>@if($previousWork->status == 'Active')
                                 <span class="label label-success">Active</span>
@@ -96,9 +96,7 @@
                                     {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-xs pull-right" role="group">
-                                        <a href="{{ route('previous_works.previous_work.show', $previousWork->id ) }}" class="btn btn-info" title="Show Previous Work">
-                                            <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
-                                        </a>
+                                    
                                         <a href="{{ route('previous_works.previous_work.edit', $previousWork->id ) }}" class="btn btn-primary" title="Edit Previous Work">
                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                         </a>

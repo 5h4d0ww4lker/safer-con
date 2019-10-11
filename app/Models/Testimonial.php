@@ -31,6 +31,7 @@ class Testimonial extends Model
                   'label',
                   'description',
                   'image',
+                  'designation',
                   'status',
                   'created_by',
                   'updated_by',

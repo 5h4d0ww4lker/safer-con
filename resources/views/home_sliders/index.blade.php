@@ -80,7 +80,7 @@
                         <tr>
                             <td>{{$i++}}</td>
                             <td>{{ $homeSlider->label }}</td>
-                            <td>{{ $homeSlider->header }}</td>
+                            <td>{{ substr ($homeSlider->header,0,100) }}..</td>
                             <td>{{ $homeSlider->description }}</td>
 
                             <td>@if($homeSlider->status == 'Active')
@@ -99,9 +99,7 @@
                                     {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-xs pull-right" role="group">
-                                        <a href="{{ route('home_sliders.home_slider.show', $homeSlider->id ) }}" class="btn btn-info" title="Show Home Slider">
-                                            <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
-                                        </a>
+                                    
                                         <a href="{{ route('home_sliders.home_slider.edit', $homeSlider->id ) }}" class="btn btn-primary" title="Edit Home Slider">
                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                         </a>

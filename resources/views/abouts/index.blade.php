@@ -78,7 +78,7 @@
                         <tr>
                             <td>{{$i++}}</td>
                             <td>{{ $about->label }}</td>
-                            <td>{{ $about->description }}</td>
+                            <td>{{ substr($about->description,0,100) }}..</td>
 
                             <td>@if($about->status == 'Active')
                                 <span class="label label-success">Active</span>
@@ -96,9 +96,7 @@
                                     {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-xs pull-right" role="group">
-                                        <a href="{{ route('abouts.about.show', $about->id ) }}" class="btn btn-info" title="Show About">
-                                            <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
-                                        </a>
+                                     
                                         <a href="{{ route('abouts.about.edit', $about->id ) }}" class="btn btn-primary" title="Edit About">
                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                         </a>

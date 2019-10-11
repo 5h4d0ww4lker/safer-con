@@ -65,7 +65,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Label</th>
+                            <th>From</th>
                             <th>Description</th>
                             <th>Status</th>
 
@@ -78,7 +78,7 @@
                         <tr>
                             <td>{{$i++}}</td>
                             <td>{{ $testimonial->label }}</td>
-                            <td>{{ $testimonial->description }}</td>
+                            <td>{{ substr($testimonial->description,0,100) }}..</td>
 
                             <td>@if($testimonial->status == 'Active')
                                 <span class="label label-success">Active</span>
@@ -96,9 +96,7 @@
                                     {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-xs pull-right" role="group">
-                                        <a href="{{ route('testimonials.testimonial.show', $testimonial->id ) }}" class="btn btn-info" title="Show Testimonial">
-                                            <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
-                                        </a>
+                                   
                                         <a href="{{ route('testimonials.testimonial.edit', $testimonial->id ) }}" class="btn btn-primary" title="Edit Testimonial">
                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                         </a>

@@ -51,6 +51,7 @@ class ContactsController extends Controller
             $data['email'] = $request->email;
             $data['phone'] = $request->phone;
             $data['fax'] = $request->fax;
+            $data['location'] = $request->location;
             $data['description'] = $request->description;
             $data['created_by'] = Auth::user()->id;
           
@@ -114,6 +115,7 @@ dd($exception->getMessage());
             $data['phone'] = $request->phone;
             $data['fax'] = $request->fax;
             $data['description'] = $request->description;
+            $data['location'] = $request->location;
            
           
 

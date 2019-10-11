@@ -115,6 +115,7 @@ class OffersController extends Controller
             $offer = Offer::findOrFail($id);
             $data['status'] = $request->status;
             $data['label'] = $request->label;
+            $data['description'] = $request->description;
 
             if (!empty($request->image)) {
                 $image = time() . '.' . request()->image->getClientOriginalExtension();

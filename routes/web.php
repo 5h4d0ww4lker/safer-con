@@ -16,6 +16,11 @@ use Illuminate\Http\Request;
 
 
 Route::get('logout', 'MainController@logout');
+Route::get('/', 'MainController@index');
+Route::get('/about', 'MainController@about');
+Route::get('/service', 'MainController@service');
+Route::get('/gallery', 'MainController@gallery');
+Route::get('/contact', 'MainController@contact');
 Route::get('admin', 'Auth\LoginController@showLoginForm')->name('login');
 Route::get('/log_out', 'MainController@log_out')->name('log_out');
 Auth::routes();

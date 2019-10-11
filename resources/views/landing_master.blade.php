@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <!-- head -->
-    @include('layouts.main.shared.head')
+    @include('main.layouts.head')
     <!-- /.head -->
     <body>
         <!--<body class="hold-transition skin-blue sidebar-mini">-->
@@ -9,7 +9,7 @@
        
 
             <!-- header -->
-            @include('layouts.main.shared.header')
+            @include('main.layouts.header')
             <!-- /.header -->
 
            
@@ -19,7 +19,7 @@
             <!-- /.content-wrapper -->
 
             <!-- Footer. contains the footer -->
-            @include('layouts.main.shared.footer')
+            @include('main.layouts.footer')
             <!-- /.Footer -->
 
            

@@ -50,6 +50,7 @@ class TestimonialsController extends Controller
 
             $data['label'] = $request->label;
             $data['description'] = $request->description;
+            $data['designation'] = $request->designation;
             $data['status'] = $request->status;
             $data['created_by'] = Auth::user()->id;
             if (!empty($request->image)) {
@@ -115,7 +116,8 @@ class TestimonialsController extends Controller
             $testimonial = Testimonial::findOrFail($id);
             $data['status'] = $request->status;
             $data['label'] = $request->label;
-
+            $data['designation'] = $request->designation;
+            $data['description'] = $request->description;
             if (!empty($request->image)) {
                 $image = time() . '.' . request()->image->getClientOriginalExtension();
 
